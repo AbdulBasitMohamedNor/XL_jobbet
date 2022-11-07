@@ -73,29 +73,33 @@ namespace XL_jobbet
                     //MessageBox.Show(" skikt nr: " + ECell.ToString() + " Innehåller: " + DCell + " Opt. Thickness = " + CCell.ToString());
 
                     double openingLayer = ECell + 2; // Ändra i denna om öppningen ska ske i ett anna skikt. flytta tvåan till en global variabel
-                    double openingTextLayer = ECell + 5; // Cell nummer och operation för "fyll på material och korrigera" Textgen 
+                    double openingTextLayer; // Cell nummer och operation för "fyll på material och korrigera" Textgen 
+                    
                     string procentageOpening_C = "50%";
                     string procentageOpening_D = "60%";
                     string procentageOpening_E = "60%";
-                    string SheetMachineName = "M19 (SiO)";
+                    string SheetMachineName = "M27 (SiO)";
 
                     // MessageBox.Show("opening_Layer is : " + openingLayer.ToString());
 
 
                     if (counter == 2)
                     {
+                        openingTextLayer = openingLayer + 7;
                         //MessageBox.Show("Counter value is : " + counter.ToString());
                         createOpening(openingLayer.ToString(), procentageOpening_E, "E", SheetMachineName, openingTextLayer.ToString());  // Move procentage opening to a global variable.
                         counter++;
                     }
                     if (counter == 1)
                     {
+                        openingTextLayer = openingLayer + 5;
                         //MessageBox.Show("Counter value is : " + counter.ToString());
                         createOpening(openingLayer.ToString(), procentageOpening_D, "D", SheetMachineName, openingTextLayer.ToString());
                         counter++;
                     }
                     if (counter == 0)
                     {
+                        openingTextLayer = openingLayer + 3;
                         //MessageBox.Show("Counter value is : " + counter.ToString());
                         createOpening(openingLayer.ToString(), procentageOpening_C, "C", SheetMachineName, openingTextLayer.ToString());
                         counter++;
@@ -118,13 +122,14 @@ namespace XL_jobbet
       void createOpening(string openingLayer, string procent, string column, string SheetMachineName, string openingTextLayer)
         {
 
-
+            // xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm");
 
 
 
             //Create Openeing///
             if (column.Equals("C"))
             {
+
                 Excel.Application xlApp = new Excel.Application();
                 Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2.xlsm", CorruptLoad: true);
                 Excel._Worksheet xlWorksheet = xlWorkbook.Sheets["Blad1"];
@@ -134,12 +139,37 @@ namespace XL_jobbet
                 xlWorksheet.Cells[5, "C"] = openingLayer; // öppnings skiktet
 
                 xlWorksheet.Cells[6, "C"] = procent; // procent i öppning
+
+
+                Excel._Worksheet xlWorksheetM19 = xlWorkbook.Sheets[SheetMachineName];
+                Excel.Range xlRange2 = xlWorksheet.UsedRange;
+
+
+                xlWorksheetM19.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").ClearContents();
+                xlWorksheetM19.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").MergeCells = true;
+
+
+
+                xlWorksheetM19.get_Range($"B{openingTextLayer}").Value2 = "Fyll på material";
+                xlWorksheetM19.get_Range($"B{openingTextLayer}").Font.Bold = true;
+                //xlWorksheetM19.get_Range("B11", "K11").Font.Color = Color.Blue;
+                xlWorksheetM19.get_Range($"B{openingTextLayer}").Cells.Interior.Color = Color.Yellow;
+
+
+                //***************************
+
+
+
+
+
                 xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm");
                 xlWorkbook.Close();
 
 
+
                 //quit and release
                 xlApp.Quit();
+
             }
             else if (column.Equals("D"))
             {
@@ -148,40 +178,31 @@ namespace XL_jobbet
                 Excel._Worksheet xlWorksheet = xlWorkbook.Sheets["Blad1"];
                 Excel.Range xlRange = xlWorksheet.UsedRange;
                 xlApp.DisplayAlerts = false;
+
                 xlWorksheet.Cells[5, "D"] = openingLayer; // öppnings skiktet
 
                 xlWorksheet.Cells[6, "D"] = procent; // procent i öppning
-
-                ///------------------formatering av öppnings rad----------//
-                ///
-
-                //M19 (SiO) 
-                Excel._Worksheet xlWorksheetM19 = xlWorkbook.Sheets[3];
+                Excel._Worksheet xlWorksheetM19 = xlWorkbook.Sheets[SheetMachineName];
                 Excel.Range xlRange2 = xlWorksheet.UsedRange;
 
 
-                xlWorksheetM19.get_Range("B11", "K11").ClearContents();
-                xlWorksheetM19.get_Range("B11", "K11").MergeCells = true;
+                xlWorksheetM19.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").ClearContents();
+                xlWorksheetM19.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").MergeCells = true;
 
 
 
-                xlWorksheetM19.get_Range("B11").Value2 = "Fyll på material";
-                xlWorksheetM19.get_Range("B11", "K11").Font.Bold = true;
+                xlWorksheetM19.get_Range($"B{openingTextLayer}").Value2 = "Fyll på material";
+                xlWorksheetM19.get_Range($"B{openingTextLayer}").Font.Bold = true;
                 //xlWorksheetM19.get_Range("B11", "K11").Font.Color = Color.Blue;
-                xlWorksheetM19.get_Range("B11", "K11").Cells.Interior.Color = Color.Yellow;
-                //  xlWorksheetM19.get_Range("B11", "K11").Columns.AutoFit();
+                xlWorksheetM19.get_Range($"B{openingTextLayer}").Cells.Interior.Color = Color.Yellow;
 
 
-                // MessageBox.Show("Avslutar ---- Börjar style formatering");
-
-
-                //spaar och avslutar
                 xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm");
                 xlWorkbook.Close();
 
-
                 //quit and release
                 xlApp.Quit();
+
             }
             else if (column.Equals("E"))
             {
@@ -189,9 +210,9 @@ namespace XL_jobbet
                 Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2_Edit.xlsm", CorruptLoad: true);
                 Excel._Worksheet xlWorksheet = xlWorkbook.Sheets["Blad1"];
                 Excel.Range xlRange = xlWorksheet.UsedRange;
-
-
                 xlApp.DisplayAlerts = false;
+
+
                 xlWorksheet.Cells[5, "E"] = openingLayer; // öppnings skiktet
 
                 xlWorksheet.Cells[6, "E"] = procent; // procent i öppning
@@ -206,8 +227,8 @@ namespace XL_jobbet
                 xlWorksheetM19.get_Range("B11", "K11").Cells.Interior.Color = Color.Yellow;
                 //  xlWorksheetM19.get_Range("B11", "K11").Columns.AutoFit();*/
 
-
                 xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm");
+
                 xlWorkbook.Close();
 
 
@@ -216,14 +237,6 @@ namespace XL_jobbet
             }
 
 
-
-            //Paste ´"öppnafyllpå material i oppnings skiktet"
-
-
-
-
-            /////END///////
-            //close and release
 
 
         }
