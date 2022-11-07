@@ -66,42 +66,9 @@ namespace XL_jobbet
 
                 //********************Iterate down the columns and read a specific cell************************//
 
-
-                if (DCell.ToString().Contains("G") && CCell >= 1.99999)
+                //if (DCell.ToString().Contains("Sio") && CCell >= 1.99999) { } // To be iplemented
+                if (DCell.ToString().Contains("Ge") && CCell >= 1.99999)
                 {
-
-                    //MessageBox.Show(" skikt nr: " + ECell.ToString() + " Innehåller: " + DCell + " Opt. Thickness = " + CCell.ToString());
-
-                    double openingLayer = ECell + 2; // Ändra i denna om öppningen ska ske i ett anna skikt. flytta tvåan till en global variabel
-                    double openingTextLayer = ECell + 5; // Cell nummer och operation för "fyll på material och korrigera" Textgen 
-                    string procentageOpening_C = "50%";
-                    string procentageOpening_D = "60%";
-                    string procentageOpening_E = "60%";
-                    string SheetMachineName = "M19 (SiO)";
-
-                    // MessageBox.Show("opening_Layer is : " + openingLayer.ToString());
-
-
-                    if (counter == 2)
-                    {
-                        //MessageBox.Show("Counter value is : " + counter.ToString());
-                        createOpening(openingLayer.ToString(), procentageOpening_E, "E", SheetMachineName, openingTextLayer.ToString());  // Move procentage opening to a global variable.
-                        counter++;
-                    }
-                    if (counter == 1)
-                    {
-                        //MessageBox.Show("Counter value is : " + counter.ToString());
-                        createOpening(openingLayer.ToString(), procentageOpening_D, "D", SheetMachineName, openingTextLayer.ToString());
-                        counter++;
-                    }
-                    if (counter == 0)
-                    {
-                        //MessageBox.Show("Counter value is : " + counter.ToString());
-                        createOpening(openingLayer.ToString(), procentageOpening_C, "C", SheetMachineName, openingTextLayer.ToString());
-                        counter++;
-                    }
-
-
 
 
                 }
@@ -114,8 +81,10 @@ namespace XL_jobbet
 
         }
 
-
-      void createOpening(string openingLayer, string procent, string column, string SheetMachineName, string openingTextLayer)
+        //*****************
+        //In: openingLayer value:skikt nummer: procent värde vid öppning, Kolumn namn        //
+        //*****************
+        void createOpening(string openingLayer, string procent, string column, string SheetMachineName, string openingTextLayer)
         {
 
 
@@ -123,7 +92,7 @@ namespace XL_jobbet
 
 
             //Create Openeing///
-            if (column.Equals("C"))
+            if (column.Equals("C")) // Första öppning se _ C5
             {
                 Excel.Application xlApp = new Excel.Application();
                 Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2.xlsm", CorruptLoad: true);
@@ -131,9 +100,9 @@ namespace XL_jobbet
                 Excel.Range xlRange = xlWorksheet.UsedRange;
                 xlApp.DisplayAlerts = false;
 
-                xlWorksheet.Cells[5, "C"] = openingLayer; // öppnings skiktet
+                xlWorksheet.Cells[5, "C"] = openingLayer; // fyll i excel Blad1-öppning1  
 
-                xlWorksheet.Cells[6, "C"] = procent; // procent i öppning
+                xlWorksheet.Cells[6, "C"] = procent; //  fyll i excel Blad1-Procent  
                 xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm");
                 xlWorkbook.Close();
 
@@ -141,7 +110,7 @@ namespace XL_jobbet
                 //quit and release
                 xlApp.Quit();
             }
-            else if (column.Equals("D"))
+            else if (column.Equals("D")) // Andra öppning se _ D5
             {
                 Excel.Application xlApp = new Excel.Application();
                 Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2_Edit.xlsm", CorruptLoad: true);
@@ -155,6 +124,7 @@ namespace XL_jobbet
                 ///------------------formatering av öppnings rad----------//
                 ///
 
+                //_____________Öppnings--text I________________________________
                 //M19 (SiO) 
                 Excel._Worksheet xlWorksheetM19 = xlWorkbook.Sheets[3];
                 Excel.Range xlRange2 = xlWorksheet.UsedRange;
@@ -169,7 +139,19 @@ namespace XL_jobbet
                 xlWorksheetM19.get_Range("B11", "K11").Font.Bold = true;
                 //xlWorksheetM19.get_Range("B11", "K11").Font.Color = Color.Blue;
                 xlWorksheetM19.get_Range("B11", "K11").Cells.Interior.Color = Color.Yellow;
-                //  xlWorksheetM19.get_Range("B11", "K11").Columns.AutoFit();
+
+                //_____________Öppnings--text II______________________________
+
+                xlWorksheetM19.get_Range("B21", "K21").ClearContents();
+                xlWorksheetM19.get_Range("B21", "K21").MergeCells = true;
+
+
+
+                xlWorksheetM19.get_Range("B21").Value2 = "Fyll på material";
+                xlWorksheetM19.get_Range("B21", "K21").Font.Bold = true;
+                //xlWorksheetM19.get_Range("B21", "K21").Font.Color = Color.Blue;
+                xlWorksheetM19.get_Range("B21", "K21").Cells.Interior.Color = Color.Yellow;
+                //  xlWorksheetM19.get_Range("B21", "K21").Columns.AutoFit();
 
 
                 // MessageBox.Show("Avslutar ---- Börjar style formatering");
@@ -183,7 +165,7 @@ namespace XL_jobbet
                 //quit and release
                 xlApp.Quit();
             }
-            else if (column.Equals("E"))
+            else if (column.Equals("E")) // Fjärde öppning se _ E5
             {
                 Excel.Application xlApp = new Excel.Application();
                 Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2_Edit.xlsm", CorruptLoad: true);
@@ -568,6 +550,19 @@ namespace XL_jobbet
 
                 MessageBox.Show(cell.Value + " Value ");
 *//*
+   * 
+   * 
+   * 
+   * 
+   *                     //double cellValue = sheet["C5"].DoubleValue;
+                    //MessageBox.Show("sheet[C5].IntValue; is : " + cellValue.ToString());
+                    //sheet["C5"].Value = openingLayer;
+                    //cellValue = sheet["C5"].DoubleValue;
+                    //MessageBox.Show("sheet[C5].IntValue; is : " + cellValue.ToString());
+                    // sheet.SaveAs(@"Blad1");
+                    //sheet.UnprotectSheet();
+
+                    //  workbook.SaveAs(@"C:\Excel\BP3_Edit.xlsm");
 foreach (var cell in range)
 {
 
