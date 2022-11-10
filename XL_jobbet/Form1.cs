@@ -12,6 +12,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 using IronXL;
 using IronXL.Styles;
 using System.Diagnostics;
+
 /* 
 Iterate through ranges and get values.
 ++++  https://automationtesting.in/get-data-from-excel-using-column-name-in-c/ ++++++
@@ -62,7 +63,7 @@ namespace XL_jobbet
                 double CCell = sheet[$"C{cell.RowIndex }"].DoubleValue;
                 string DCell = sheet[$"D{cell.RowIndex }"].ToString();
                 double ECell = sheet[$"E{cell.RowIndex }"].DoubleValue;
-                //MessageBox.Show(" skikt nr: " + ECell.ToString());
+                ////MessageBox.Show(" skikt nr: " + ECell.ToString());
 
                 //********************Iterate down the columns and read a specific cell************************//
 
@@ -70,43 +71,125 @@ namespace XL_jobbet
                 if (DCell.ToString().Contains("G") && CCell >= 1.99999)
                 {
 
-                    //MessageBox.Show(" skikt nr: " + ECell.ToString() + " Innehåller: " + DCell + " Opt. Thickness = " + CCell.ToString());
+                    ////MessageBox.Show(" skikt nr: " + ECell.ToString() + " Innehåller: " + DCell + " Opt. Thickness = " + CCell.ToString());
 
                     double openingLayer = ECell + 2; // Ändra i denna om öppningen ska ske i ett anna skikt. flytta tvåan till en global variabel
                     double openingTextLayer; // Cell nummer och operation för "fyll på material och korrigera" Textgen 
-                    
+
                     string procentageOpening_C = "50%";
                     string procentageOpening_D = "60%";
                     string procentageOpening_E = "60%";
-                    string SheetMachineName = "M27 (SiO)";
+                    //  string SheetMachineNameM19 = "M19 (ZnS)"; // "M27 (SiO)";
+                    string SheetMachineNameM20 = "M20 (ZnS)"; // "M27 (SiO)";
+                    string SheetMachineNameM21 = "M21 (ZnS)"; // "M27 (SiO)";
 
-                    // MessageBox.Show("opening_Layer is : " + openingLayer.ToString());
+                    // //MessageBox.Show("opening_Layer is : " + openingLayer.ToString());
+
+                    /*
+                                        if (counter == 2)
+                                        {
+                                            openingTextLayer = openingLayer + 7;
+                                            ////MessageBox.Show("Counter value is : " + counter.ToString());
+                                            ///  createOpening(openingLayer.ToString(), procentageOpening_C, "E", SheetMachineNameM19, openingTextLayer.ToString());
+                                            createOpening(openingLayer.ToString(), procentageOpening_C, "E", SheetMachineNameM20, openingTextLayer.ToString());
+                                            createOpening(openingLayer.ToString(), procentageOpening_C, "E", SheetMachineNameM21, openingTextLayer.ToString());                        counter++;
+                                        }
+                                        if (counter == 1)
+                                        {
+                                            openingTextLayer = openingLayer + 5;
+                                            ////MessageBox.Show("Counter value is : " + counter.ToString());
+                                            ///  createOpening(openingLayer.ToString(), procentageOpening_C, "D", SheetMachineNameM19, openingTextLayer.ToString());
+                                            createOpening(openingLayer.ToString(), procentageOpening_C, "D", SheetMachineNameM20, openingTextLayer.ToString());
+                                            createOpening(openingLayer.ToString(), procentageOpening_C, "D", SheetMachineNameM21, openingTextLayer.ToString());
+                                            counter++;
+                                        }
+                                        if (counter == 0)
+                                        {
+                                            openingTextLayer = openingLayer + 3;
+                                            ////MessageBox.Show("Counter value is : " + counter.ToString());
+                                            ///   createOpening(openingLayer.ToString(), procentageOpening_C, "C", SheetMachineNameM19, openingTextLayer.ToString());
+                                       //     createOpening(openingLayer.ToString(), procentageOpening_C, "C", SheetMachineNameM20, openingTextLayer.ToString());
+                                            createOpening(openingLayer.ToString(), procentageOpening_C, "C", SheetMachineNameM21, openingTextLayer.ToString());
+                                            counter++;
+                                        }
+
+
+                                        */
+
+                    IEnumerable<int> collection = new List<int>() { 9, 10 }; //,  "M18 (ZnS)", "M19 (ZnS)", "M20 (ZnS)" 
+
+                    /* */
+
+                    // string str1 = collection.ElementAt(i);
+
 
 
                     if (counter == 2)
                     {
                         openingTextLayer = openingLayer + 7;
+                        ////MessageBox.Show("Counter value is : " + counter.ToString());
+                        ///  createOpening(openingLayer.ToString(), procentageOpening_C, "E", SheetMachineNameM19, openingTextLayer.ToString());
+                        //createOpening(openingLayer.ToString(), procentageOpening_C, "E", SheetMachineNameM20, openingTextLayer.ToString());
+                        createOpening(openingLayer.ToString(), procentageOpening_E, "E", collection.First(), openingTextLayer.ToString());
+                        createOpening(openingLayer.ToString(), procentageOpening_E, "E", collection.First() + 1, openingTextLayer.ToString());
+                        createOpening(openingLayer.ToString(), procentageOpening_E, "E", collection.First() + 2, openingTextLayer.ToString());
+                        createOpening(openingLayer.ToString(), procentageOpening_E, "E", collection.First() + 3, openingTextLayer.ToString());
+                        counter++;
+                    }
+                    if (counter == 1)
+                    {
+                        openingTextLayer = openingLayer + 5;
+                        ////MessageBox.Show("Counter value is : " + counter.ToString());
+                        ///  createOpening(openingLayer.ToString(), procentageOpening_C, "D", SheetMachineNameM19, openingTextLayer.ToString());
+                        //createOpening(openingLayer.ToString(), procentageOpening_C, "D", SheetMachineNameM20, openingTextLayer.ToString());
+                        createOpening(openingLayer.ToString(), procentageOpening_D, "D", collection.First(), openingTextLayer.ToString());
+                        createOpening(openingLayer.ToString(), procentageOpening_D, "D", collection.First() + 1, openingTextLayer.ToString());
+                        createOpening(openingLayer.ToString(), procentageOpening_D, "D", collection.First() + 2, openingTextLayer.ToString());
+                        createOpening(openingLayer.ToString(), procentageOpening_D, "D", collection.First() + 3, openingTextLayer.ToString());
+
+                        counter++;
+                    }
+                    if (counter == 0)
+                    {
+                        openingTextLayer = openingLayer + 3;
+                        ////MessageBox.Show("Counter value is : " + counter.ToString());
+                        ///   createOpening(openingLayer.ToString(), procentageOpening_C, "C", SheetMachineNameM19, openingTextLayer.ToString());
+                        //     createOpening(openingLayer.ToString(), procentageOpening_C, "C", SheetMachineNameM20, openingTextLayer.ToString());
+                        createOpening(openingLayer.ToString(), procentageOpening_C, "C", collection.First(), openingTextLayer.ToString());
+                        createOpening(openingLayer.ToString(), procentageOpening_C, "C", collection.First() + 1, openingTextLayer.ToString());
+                        createOpening(openingLayer.ToString(), procentageOpening_C, "C", collection.First() + 2, openingTextLayer.ToString());
+                        createOpening(openingLayer.ToString(), procentageOpening_C, "C", collection.First() + 3, openingTextLayer.ToString());
+
+                        counter++;
+                    }
+
+
+                   // for (int i = 0; i < collection.Count(); i++)
+                    //{ }
+
+
+                    /*
+                    if (counter == 2)
+                    {
+                        openingTextLayer = openingLayer + 7;
                         //MessageBox.Show("Counter value is : " + counter.ToString());
-                        createOpening(openingLayer.ToString(), procentageOpening_E, "E", SheetMachineName, openingTextLayer.ToString());  // Move procentage opening to a global variable.
+                        createOpening(openingLayer.ToString(), procentageOpening_E, "E", 10, openingTextLayer.ToString());  // Move procentage opening to a global variable.
                         counter++;
                     }
                     if (counter == 1)
                     {
                         openingTextLayer = openingLayer + 5;
                         //MessageBox.Show("Counter value is : " + counter.ToString());
-                        createOpening(openingLayer.ToString(), procentageOpening_D, "D", SheetMachineName, openingTextLayer.ToString());
+                        createOpening(openingLayer.ToString(), procentageOpening_D, "D",10, openingTextLayer.ToString());
                         counter++;
                     }
                     if (counter == 0)
                     {
                         openingTextLayer = openingLayer + 3;
                         //MessageBox.Show("Counter value is : " + counter.ToString());
-                        createOpening(openingLayer.ToString(), procentageOpening_C, "C", SheetMachineName, openingTextLayer.ToString());
+                        createOpening(openingLayer.ToString(), procentageOpening_C, "C", 10, openingTextLayer.ToString());
                         counter++;
-                    }
-
-
-
+                    }*/
 
                 }
 
@@ -119,7 +202,7 @@ namespace XL_jobbet
         }
 
 
-      void createOpening(string openingLayer, string procent, string column, string SheetMachineName, string openingTextLayer)
+        void createOpening(string openingLayer, string procent, string column, int SheetMachineName, string openingTextLayer)
         {
 
             // xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm");
@@ -129,43 +212,38 @@ namespace XL_jobbet
             //Create Openeing///
             if (column.Equals("C"))
             {
-
+                //MessageBox.Show($"openong for {column}");
                 Excel.Application xlApp = new Excel.Application();
                 Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2.xlsm", CorruptLoad: true);
                 Excel._Worksheet xlWorksheet = xlWorkbook.Sheets["Blad1"];
                 Excel.Range xlRange = xlWorksheet.UsedRange;
                 xlApp.DisplayAlerts = false;
 
+
+
+
+
+
                 xlWorksheet.Cells[5, "C"] = openingLayer; // öppnings skiktet
 
                 xlWorksheet.Cells[6, "C"] = procent; // procent i öppning
-
-
-                Excel._Worksheet xlWorksheetM19 = xlWorkbook.Sheets[SheetMachineName];
+                Excel._Worksheet xlSheetMachineName = xlWorkbook.Sheets[SheetMachineName];
                 Excel.Range xlRange2 = xlWorksheet.UsedRange;
 
 
-                xlWorksheetM19.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").ClearContents();
-                xlWorksheetM19.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").MergeCells = true;
+                xlSheetMachineName.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").ClearContents();
+                xlSheetMachineName.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").MergeCells = true;
 
 
 
-                xlWorksheetM19.get_Range($"B{openingTextLayer}").Value2 = "Fyll på material";
-                xlWorksheetM19.get_Range($"B{openingTextLayer}").Font.Bold = true;
+                xlSheetMachineName.get_Range($"B{openingTextLayer}").Value2 = "Fyll på material";
+                xlSheetMachineName.get_Range($"B{openingTextLayer}").Font.Bold = true;
                 //xlWorksheetM19.get_Range("B11", "K11").Font.Color = Color.Blue;
-                xlWorksheetM19.get_Range($"B{openingTextLayer}").Cells.Interior.Color = Color.Yellow;
-
-
-                //***************************
-
-
-
+                xlSheetMachineName.get_Range($"B{openingTextLayer}").Cells.Interior.Color = Color.Yellow;
 
 
                 xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm");
                 xlWorkbook.Close();
-
-
 
                 //quit and release
                 xlApp.Quit();
@@ -217,20 +295,23 @@ namespace XL_jobbet
 
                 xlWorksheet.Cells[6, "E"] = procent; // procent i öppning
 
-                /*
-                Excel._Worksheet xlWorksheetM19 = xlWorkbook.Sheets[3];
+                Excel._Worksheet xlWorksheetM19 = xlWorkbook.Sheets[SheetMachineName];
                 Excel.Range xlRange2 = xlWorksheet.UsedRange;
-                //  xlRange2.Merge(xlWorksheetM19.Range["B11", "K11"]);
-                xlWorksheetM19.get_Range("B11").Value2 = "Fyll på material";
-                xlWorksheetM19.get_Range("B11", "K11").Font.Bold = true;
+
+
+                xlWorksheetM19.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").ClearContents();
+                xlWorksheetM19.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").MergeCells = true;
+
+
+
+                xlWorksheetM19.get_Range($"B{openingTextLayer}").Value2 = "Fyll på material";
+                xlWorksheetM19.get_Range($"B{openingTextLayer}").Font.Bold = true;
                 //xlWorksheetM19.get_Range("B11", "K11").Font.Color = Color.Blue;
-                xlWorksheetM19.get_Range("B11", "K11").Cells.Interior.Color = Color.Yellow;
-                //  xlWorksheetM19.get_Range("B11", "K11").Columns.AutoFit();*/
+                xlWorksheetM19.get_Range($"B{openingTextLayer}").Cells.Interior.Color = Color.Yellow;
+
 
                 xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm");
-
                 xlWorkbook.Close();
-
 
                 //quit and release
                 xlApp.Quit();
@@ -306,9 +387,22 @@ namespace XL_jobbet
         }
         private void button8_Click_1(object sender, EventArgs e)
         {
-            // pasteOpeningText("Blad1");
-            // createOpening("8", "30%", "16", "90%", "25", "60%");
 
+            Excel.Application xlApp = new Excel.Application();
+            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2.xlsm", CorruptLoad: true);
+
+
+            foreach (Excel._Worksheet worksheet in xlWorkbook.Worksheets)
+            {
+
+                MessageBox.Show(worksheet.Name, worksheet.Index.ToString());
+            }
+
+            xlWorkbook.Close();
+
+
+            //quit and release
+            xlApp.Quit();
         }
 
 
@@ -336,7 +430,7 @@ namespace XL_jobbet
               Excel.Range cell = ws.Cells["A1:A2"];
               foreach (string Result in cell.Value)
               {
-                  MessageBox.Show(Result);
+                  //MessageBox.Show(Result);
               }*/
         }
 
@@ -416,7 +510,7 @@ namespace XL_jobbet
                 errorMessage = String.Concat(errorMessage, " Line: ");
                 errorMessage = String.Concat(errorMessage, theException.Source);
 
-                MessageBox.Show(errorMessage, "Error");
+                //MessageBox.Show(errorMessage, "Error");
             }
 
         }
@@ -449,7 +543,7 @@ namespace XL_jobbet
                     errorMessage = "Can't find the Excel workbook.  Try clicking Button1 " +
                        "to create an Excel workbook with data before running Button2.";
 
-                    MessageBox.Show(errorMessage, "Missing Workbook?");
+                    //MessageBox.Show(errorMessage, "Missing Workbook?");
 
                     //You can't automate Excel if you can't find the data you created, so 
                     //leave the subroutine.
@@ -488,7 +582,7 @@ namespace XL_jobbet
                 }
 
                 //Report the value of the array.
-                MessageBox.Show(valueString, "Array Values");
+                //MessageBox.Show(valueString, "Array Values");
             }
 
             catch (Exception theException)
@@ -499,7 +593,7 @@ namespace XL_jobbet
                 errorMessage = String.Concat(errorMessage, " Line: ");
                 errorMessage = String.Concat(errorMessage, theException.Source);
 
-                MessageBox.Show(errorMessage, "Error");
+                //MessageBox.Show(errorMessage, "Error");
             }
 
         }
@@ -515,7 +609,7 @@ namespace XL_jobbet
             WorkSheet oldSheet = workbook.GetWorkSheet("Blad9");
             //Select cells easily in Excel notation and return the calculated value
             //int cellValue = sheet["A2"].IntValue;
-            // MessageBox.Show("cellValue {0}", cellValue.ToString());
+            // //MessageBox.Show("cellValue {0}", cellValue.ToString());
 
             var range = sheet["C14:D20"];
             // Read from Ranges of cells elegantly.
@@ -523,22 +617,22 @@ namespace XL_jobbet
             foreach (var cell in range)
             {
 
-                //MessageBox.Show(cell.AddressString + " = " + cell.Value.ToString());
+                ////MessageBox.Show(cell.AddressString + " = " + cell.Value.ToString());
 
                 if (cell.Value.ToString().Contains("2,000001"))
                 {
-                    MessageBox.Show(cell.AddressString + " Innehåller 2,000001  ");
-                    MessageBox.Show(cell.Address + " Address ");
-                    MessageBox.Show(cell.ColumnIndex.ToString() + " ColumnIndex  ");
-                    MessageBox.Show(cell.RowIndex.ToString() + " RowIndex  ");
-                    MessageBox.Show(cell.Location + " Location ");
-                    MessageBox.Show(cell.StringValue + " StringValue ");
-                    MessageBox.Show(cell.Value + " Value ");
+                    //MessageBox.Show(cell.AddressString + " Innehåller 2,000001  ");
+                    //MessageBox.Show(cell.Address + " Address ");
+                    //MessageBox.Show(cell.ColumnIndex.ToString() + " ColumnIndex  ");
+                    //MessageBox.Show(cell.RowIndex.ToString() + " RowIndex  ");
+                    //MessageBox.Show(cell.Location + " Location ");
+                    //MessageBox.Show(cell.StringValue + " StringValue ");
+                    //MessageBox.Show(cell.Value + " Value ");
                 }
 
                 /*   for (int i = 0; i < range.Count(); i++)
                    {
-                       MessageBox.Show(cell.AddressString + " Innehåller G ");
+                       //MessageBox.Show(cell.AddressString + " Innehåller G ");
                    }*/
             }
 
@@ -561,43 +655,43 @@ namespace XL_jobbet
 
 
 
-//MessageBox.Show(max.ToString("F2"));
-//MessageBox.Show(ColumnIndex.ToString());
+////MessageBox.Show(max.ToString("F2"));
+////MessageBox.Show(ColumnIndex.ToString());
 
-//MessageBox.Show(cell.AddressString + " = " + cell.Value.ToString());   if (cell.Value.ToString().Contains("2,000001")|| cell.Value.ToString().Contains("3,000002"))
+////MessageBox.Show(cell.AddressString + " = " + cell.Value.ToString());   if (cell.Value.ToString().Contains("2,000001")|| cell.Value.ToString().Contains("3,000002"))
 //  {    }
 
 /*
-                MessageBox.Show(cell.AddressString + " Innehåller 2,000001  ");
+                //MessageBox.Show(cell.AddressString + " Innehåller 2,000001  ");
 
-                MessageBox.Show(cell.Address + " Address ");
+                //MessageBox.Show(cell.Address + " Address ");
 
-                MessageBox.Show(cell.ColumnIndex.ToString() + " ColumnIndex  ");
+                //MessageBox.Show(cell.ColumnIndex.ToString() + " ColumnIndex  ");
 
-                MessageBox.Show(cell.RowIndex.ToString() + " RowIndex  ");
-                MessageBox.Show(cell.Location + " Location ");
+                //MessageBox.Show(cell.RowIndex.ToString() + " RowIndex  ");
+                //MessageBox.Show(cell.Location + " Location ");
 
-                MessageBox.Show(cell.StringValue + " StringValue ");
+                //MessageBox.Show(cell.StringValue + " StringValue ");
 
-                MessageBox.Show(cell.Value + " Value ");
+                //MessageBox.Show(cell.Value + " Value ");
 *//*
 foreach (var cell in range)
 {
 
 
 
-// Read C column on cell at a time value [Opt. thickness.] and show on messagebox.
+// Read C column on cell at a time value [Opt. thickness.] and show on //MessageBox.
 double CCell = sheet[$"C{cell.RowIndex }"].DoubleValue;
-MessageBox.Show(CCell.ToString() + " --->>> Värden CCell ");
+//MessageBox.Show(CCell.ToString() + " --->>> Värden CCell ");
 
 
-// Read D column on cell at a time value [SkiktNummer] and show on messagebox.
+// Read D column on cell at a time value [SkiktNummer] and show on //MessageBox.
 string DCell = sheet[$"D{cell.RowIndex }"].ToString();
-MessageBox.Show(DCell + " --->>> Material DCell ");
+//MessageBox.Show(DCell + " --->>> Material DCell ");
 
-// Read E column on cell at a time value [Nr] and show on messagebox.
+// Read E column on cell at a time value [Nr] and show on //MessageBox.
 double ECell = sheet[$"E{cell.RowIndex }"].DoubleValue;
-MessageBox.Show(ECell.ToString() + " --->>> right ECell ");
+//MessageBox.Show(ECell.ToString() + " --->>> right ECell ");
 
 
             string maxAdress = sheet["C14:D24"].Max(c => c.AddressString);
@@ -612,15 +706,15 @@ MessageBox.Show(ECell.ToString() + " --->>> right ECell ");
 /*  if (cell.Value.ToString().Contains("2,0") || cell.Value.ToString().Contains("4,0")|| cell.Value.ToString().Contains("6,0"))
  { }
    string rightNRCell = sheet[$"D{cell.RowIndex + 2}"].ToString();
-    MessageBox.Show(rightNRCell + " --->>> right NR Cell ");
+    //MessageBox.Show(rightNRCell + " --->>> right NR Cell ");
 
     string rightNRCell3 = sheet[$"D{cell.RowIndex +3}"].ToString();
-    MessageBox.Show(rightNRCell3 + " --->>> right NR Cell ");
+    //MessageBox.Show(rightNRCell3 + " --->>> right NR Cell ");
 */
 
 
 
 /*   for (int i = 0; i < range.Count(); i++)
    {
-       MessageBox.Show(cell.AddressString + " Innehåller G ");
+       //MessageBox.Show(cell.AddressString + " Innehåller G ");
    }*/

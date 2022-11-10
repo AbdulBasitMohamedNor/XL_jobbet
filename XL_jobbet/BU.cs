@@ -529,6 +529,47 @@ namespace XL_jobbet
 }
 
 
+/*
+ 
+                   IEnumerable<int> collection = new List<int>() { 9,10,11 }; //, "M20 (ZnS)", "M21 (ZnS)"
+
+                    for (int i = 0; i < collection.Count(); i++)
+                    {    }
+                        // string str1 = collection.ElementAt(i);
+
+
+
+                        if (counter == 2)
+                        {
+                            openingTextLayer = openingLayer + 7;
+                        ////MessageBox.Show("Counter value is : " + counter.ToString());
+                        createOpening(openingLayer.ToString(), procentageOpening_C, "E", collection.ElementAt(0), openingTextLayer.ToString()); counter++;
+                        createOpening(openingLayer.ToString(), procentageOpening_C, "E", collection.ElementAt(1), openingTextLayer.ToString()); ;
+                        createOpening(openingLayer.ToString(), procentageOpening_C, "E", collection.ElementAt(2), openingTextLayer.ToString()); ;
+                        }
+                        if (counter == 1)
+                        {
+                            openingTextLayer = openingLayer + 5;
+                        ////MessageBox.Show("Counter value is : " + counter.ToString());
+                        createOpening(openingLayer.ToString(), procentageOpening_C, "D", collection.ElementAt(0), openingTextLayer.ToString()); counter++;
+                        createOpening(openingLayer.ToString(), procentageOpening_C, "D", collection.ElementAt(1), openingTextLayer.ToString()); ;
+                        createOpening(openingLayer.ToString(), procentageOpening_C, "D", collection.ElementAt(2), openingTextLayer.ToString()); ;
+                        counter++;
+                        }
+                        if (counter == 0)
+                        {
+                            openingTextLayer = openingLayer + 3;
+                        createOpening(openingLayer.ToString(), procentageOpening_C, "C", collection.ElementAt(0), openingTextLayer.ToString()); counter++;
+                        createOpening(openingLayer.ToString(), procentageOpening_C, "C", collection.ElementAt(1), openingTextLayer.ToString()); ;
+                        createOpening(openingLayer.ToString(), procentageOpening_C, "C", collection.ElementAt(2), openingTextLayer.ToString()); ;
+                        counter++;
+                        }
+
+
+                    }
+ 
+ 
+ */
 
 //MessageBox.Show(max.ToString("F2"));
 //MessageBox.Show(ColumnIndex.ToString());
