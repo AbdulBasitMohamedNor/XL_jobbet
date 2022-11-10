@@ -42,6 +42,14 @@ namespace XL_jobbet
 
             //Supported spreadsheet formats for reading include: XLSX, XLS, CSV and TSV
             killExcel();
+            //MessageBox.Show($"openong for {column}");
+            Excel.Application xlApp = new Excel.Application();
+            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2.xlsm", CorruptLoad: true);
+            xlApp.DisplayAlerts = false;
+
+            xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm");
+            xlWorkbook.Close();
+            xlApp.Quit();
 
 
         }
@@ -116,14 +124,13 @@ namespace XL_jobbet
 
                                         */
 
-                    IEnumerable<int> collection = new List<int>() { 9, 10 }; //,  "M18 (ZnS)", "M19 (ZnS)", "M20 (ZnS)" 
+                    IEnumerable<int> collection = new List<int>() { 9, 10 }; //,  "M18 (ZnS)", "M19 (ZnS)", "M20 (ZnS) // collection.ElementAt(0);
+                    var firstCollectiion =collection.ElementAt(0);
 
-                    /* */
+                    var myList = new List<string> { "M18 (ZnS)", "M19 (ZnS)", "M20 (ZnS)" , "M20 (ZnS)"  };
+                    var firstItem = myList.ElementAt(0);
 
-                    // string str1 = collection.ElementAt(i);
-
-
-
+              
                     if (counter == 2)
                     {
                         openingTextLayer = openingLayer + 7;
@@ -212,23 +219,20 @@ namespace XL_jobbet
             //Create Openeing///
             if (column.Equals("C"))
             {
-                //MessageBox.Show($"openong for {column}");
+
+                //_____________________________________________________________________
+
                 Excel.Application xlApp = new Excel.Application();
-                Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2.xlsm", CorruptLoad: true);
+                Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2_Edit.xlsm", CorruptLoad: true);
                 Excel._Worksheet xlWorksheet = xlWorkbook.Sheets["Blad1"];
-                Excel.Range xlRange = xlWorksheet.UsedRange;
+               
                 xlApp.DisplayAlerts = false;
-
-
-
-
 
 
                 xlWorksheet.Cells[5, "C"] = openingLayer; // öppnings skiktet
 
                 xlWorksheet.Cells[6, "C"] = procent; // procent i öppning
                 Excel._Worksheet xlSheetMachineName = xlWorkbook.Sheets[SheetMachineName];
-                Excel.Range xlRange2 = xlWorksheet.UsedRange;
 
 
                 xlSheetMachineName.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").ClearContents();
@@ -254,25 +258,23 @@ namespace XL_jobbet
                 Excel.Application xlApp = new Excel.Application();
                 Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2_Edit.xlsm", CorruptLoad: true);
                 Excel._Worksheet xlWorksheet = xlWorkbook.Sheets["Blad1"];
-                Excel.Range xlRange = xlWorksheet.UsedRange;
                 xlApp.DisplayAlerts = false;
 
                 xlWorksheet.Cells[5, "D"] = openingLayer; // öppnings skiktet
 
                 xlWorksheet.Cells[6, "D"] = procent; // procent i öppning
-                Excel._Worksheet xlWorksheetM19 = xlWorkbook.Sheets[SheetMachineName];
-                Excel.Range xlRange2 = xlWorksheet.UsedRange;
+                Excel._Worksheet xlSheetMachineName = xlWorkbook.Sheets[SheetMachineName];
 
 
-                xlWorksheetM19.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").ClearContents();
-                xlWorksheetM19.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").MergeCells = true;
+                xlSheetMachineName.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").ClearContents();
+                xlSheetMachineName.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").MergeCells = true;
 
 
 
-                xlWorksheetM19.get_Range($"B{openingTextLayer}").Value2 = "Fyll på material";
-                xlWorksheetM19.get_Range($"B{openingTextLayer}").Font.Bold = true;
+                xlSheetMachineName.get_Range($"B{openingTextLayer}").Value2 = "Fyll på material";
+                xlSheetMachineName.get_Range($"B{openingTextLayer}").Font.Bold = true;
                 //xlWorksheetM19.get_Range("B11", "K11").Font.Color = Color.Blue;
-                xlWorksheetM19.get_Range($"B{openingTextLayer}").Cells.Interior.Color = Color.Yellow;
+                xlSheetMachineName.get_Range($"B{openingTextLayer}").Cells.Interior.Color = Color.Yellow;
 
 
                 xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm");
@@ -287,7 +289,6 @@ namespace XL_jobbet
                 Excel.Application xlApp = new Excel.Application();
                 Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2_Edit.xlsm", CorruptLoad: true);
                 Excel._Worksheet xlWorksheet = xlWorkbook.Sheets["Blad1"];
-                Excel.Range xlRange = xlWorksheet.UsedRange;
                 xlApp.DisplayAlerts = false;
 
 
@@ -295,19 +296,19 @@ namespace XL_jobbet
 
                 xlWorksheet.Cells[6, "E"] = procent; // procent i öppning
 
-                Excel._Worksheet xlWorksheetM19 = xlWorkbook.Sheets[SheetMachineName];
-                Excel.Range xlRange2 = xlWorksheet.UsedRange;
+                Excel._Worksheet xlSheetMachineName = xlWorkbook.Sheets[SheetMachineName];
+                //Excel.Range xlRange2 = xlWorksheet.UsedRange;
 
 
-                xlWorksheetM19.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").ClearContents();
-                xlWorksheetM19.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").MergeCells = true;
+                xlSheetMachineName.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").ClearContents();
+                xlSheetMachineName.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").MergeCells = true;
 
 
 
-                xlWorksheetM19.get_Range($"B{openingTextLayer}").Value2 = "Fyll på material";
-                xlWorksheetM19.get_Range($"B{openingTextLayer}").Font.Bold = true;
+                xlSheetMachineName.get_Range($"B{openingTextLayer}").Value2 = "Fyll på material";
+                xlSheetMachineName.get_Range($"B{openingTextLayer}").Font.Bold = true;
                 //xlWorksheetM19.get_Range("B11", "K11").Font.Color = Color.Blue;
-                xlWorksheetM19.get_Range($"B{openingTextLayer}").Cells.Interior.Color = Color.Yellow;
+                xlSheetMachineName.get_Range($"B{openingTextLayer}").Cells.Interior.Color = Color.Yellow;
 
 
                 xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm");
@@ -599,54 +600,16 @@ namespace XL_jobbet
         }
         private void button4_Click(object sender, EventArgs e)
         {
-            /**
-            Read XLS or XLSX File
-            anchor-read-an-xls-or-xlsx-file
-            **/
-            //Supported spreadsheet formats for reading include: XLSX, XLS, CSV and TSV
-            WorkBook workbook = WorkBook.Load(@"C:\Excel\BP2.xlsm");
-            WorkSheet sheet = workbook.WorkSheets.First();
-            WorkSheet oldSheet = workbook.GetWorkSheet("Blad9");
-            //Select cells easily in Excel notation and return the calculated value
-            //int cellValue = sheet["A2"].IntValue;
-            // //MessageBox.Show("cellValue {0}", cellValue.ToString());
+            killExcel();
+            //MessageBox.Show($"openong for {column}");
+            Excel.Application xlApp = new Excel.Application();
+            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2.xlsm", CorruptLoad: true);
+            xlApp.DisplayAlerts = false;
 
-            var range = sheet["C14:D20"];
-            // Read from Ranges of cells elegantly.
+          //  xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm");
+            xlWorkbook.Close();
+         
 
-            foreach (var cell in range)
-            {
-
-                ////MessageBox.Show(cell.AddressString + " = " + cell.Value.ToString());
-
-                if (cell.Value.ToString().Contains("2,000001"))
-                {
-                    //MessageBox.Show(cell.AddressString + " Innehåller 2,000001  ");
-                    //MessageBox.Show(cell.Address + " Address ");
-                    //MessageBox.Show(cell.ColumnIndex.ToString() + " ColumnIndex  ");
-                    //MessageBox.Show(cell.RowIndex.ToString() + " RowIndex  ");
-                    //MessageBox.Show(cell.Location + " Location ");
-                    //MessageBox.Show(cell.StringValue + " StringValue ");
-                    //MessageBox.Show(cell.Value + " Value ");
-                }
-
-                /*   for (int i = 0; i < range.Count(); i++)
-                   {
-                       //MessageBox.Show(cell.AddressString + " Innehåller G ");
-                   }*/
-            }
-
-            /*  if (sheet["D1"].Value.ToString().Contains("G") )
-              {
-                  Console.WriteLine("Basic test passed");
-              }*/
-
-            ///Advanced Operations
-            //Calculate aggregate values such as Min, Max and Sum
-            //   decimal sum = sheet["A2:A10"].Sum();
-
-            //Linq compatible
-            //  decimal max = sheet["A2:A10"].Max(c => c.DecimalValue);
         }
 
 

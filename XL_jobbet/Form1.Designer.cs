@@ -77,7 +77,7 @@ namespace XL_jobbet
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(320, 37);
             this.button4.TabIndex = 3;
-            this.button4.Text = "button4";
+            this.button4.Text = "ExcelSaveAsNewFile";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
@@ -99,7 +99,7 @@ namespace XL_jobbet
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(320, 37);
             this.button8.TabIndex = 5;
-            this.button8.Text = "button8";
+            this.button8.Text = "Get_excel_Sheet_names&Indexes";
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.button8_Click_1);
             // 
@@ -107,7 +107,7 @@ namespace XL_jobbet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(350, 370);
+            this.ClientSize = new System.Drawing.Size(600, 590);
             this.Controls.Add(this.button8);
             this.Controls.Add(this.FillWithStrings);
             this.Controls.Add(this.button4);
