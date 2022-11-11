@@ -12,6 +12,8 @@ using Excel = Microsoft.Office.Interop.Excel;
 using IronXL;
 using IronXL.Styles;
 using System.Diagnostics;
+using ClosedXML.Excel;
+using System.Text.RegularExpressions;
 
 /* 
 Iterate through ranges and get values.
@@ -125,22 +127,23 @@ namespace XL_jobbet
                                         */
 
                     IEnumerable<int> collection = new List<int>() { 9, 10 }; //,  "M18 (ZnS)", "M19 (ZnS)", "M20 (ZnS) // collection.ElementAt(0);
-                    var firstCollectiion =collection.ElementAt(0);
+                    var firstCollectiion = collection.ElementAt(0);
 
-                    var myList = new List<string> { "M18 (ZnS)", "M19 (ZnS)", "M20 (ZnS)" , "M20 (ZnS)"  };
+                    var myList = new List<string> { "M18 (ZnS)", "M19 (ZnS)", "M20 (ZnS)", "M20 (ZnS)" };
                     var firstItem = myList.ElementAt(0);
 
-              
+
                     if (counter == 2)
                     {
                         openingTextLayer = openingLayer + 7;
                         ////MessageBox.Show("Counter value is : " + counter.ToString());
                         ///  createOpening(openingLayer.ToString(), procentageOpening_C, "E", SheetMachineNameM19, openingTextLayer.ToString());
                         //createOpening(openingLayer.ToString(), procentageOpening_C, "E", SheetMachineNameM20, openingTextLayer.ToString());
-                        createOpening(openingLayer.ToString(), procentageOpening_E, "E", collection.First(), openingTextLayer.ToString());
-                        createOpening(openingLayer.ToString(), procentageOpening_E, "E", collection.First() + 1, openingTextLayer.ToString());
-                        createOpening(openingLayer.ToString(), procentageOpening_E, "E", collection.First() + 2, openingTextLayer.ToString());
-                        createOpening(openingLayer.ToString(), procentageOpening_E, "E", collection.First() + 3, openingTextLayer.ToString());
+                        createOpening(openingLayer.ToString(), procentageOpening_C, "E", collection.First(), collection.First() + 1, collection.First() + 2,
+                        collection.First() + 3, openingTextLayer.ToString());
+                        //createOpening(openingLayer.ToString(), procentageOpening_E, "E", collection.First() + 1, openingTextLayer.ToString());
+                        //createOpening(openingLayer.ToString(), procentageOpening_E, "E", collection.First() + 2, openingTextLayer.ToString());
+                        //createOpening(openingLayer.ToString(), procentageOpening_E, "E", collection.First() + 3, openingTextLayer.ToString());
                         counter++;
                     }
                     if (counter == 1)
@@ -149,10 +152,11 @@ namespace XL_jobbet
                         ////MessageBox.Show("Counter value is : " + counter.ToString());
                         ///  createOpening(openingLayer.ToString(), procentageOpening_C, "D", SheetMachineNameM19, openingTextLayer.ToString());
                         //createOpening(openingLayer.ToString(), procentageOpening_C, "D", SheetMachineNameM20, openingTextLayer.ToString());
-                        createOpening(openingLayer.ToString(), procentageOpening_D, "D", collection.First(), openingTextLayer.ToString());
-                        createOpening(openingLayer.ToString(), procentageOpening_D, "D", collection.First() + 1, openingTextLayer.ToString());
-                        createOpening(openingLayer.ToString(), procentageOpening_D, "D", collection.First() + 2, openingTextLayer.ToString());
-                        createOpening(openingLayer.ToString(), procentageOpening_D, "D", collection.First() + 3, openingTextLayer.ToString());
+                        createOpening(openingLayer.ToString(), procentageOpening_C, "D", collection.First(), collection.First() + 1, collection.First() + 2,
+                        collection.First() + 3, openingTextLayer.ToString());
+                        //createOpening(openingLayer.ToString(), procentageOpening_D, "D", collection.First() + 1, openingTextLayer.ToString());
+                        //createOpening(openingLayer.ToString(), procentageOpening_D, "D", collection.First() + 2, openingTextLayer.ToString());
+                        //createOpening(openingLayer.ToString(), procentageOpening_D, "D", collection.First() + 3, openingTextLayer.ToString());
 
                         counter++;
                     }
@@ -162,16 +166,17 @@ namespace XL_jobbet
                         ////MessageBox.Show("Counter value is : " + counter.ToString());
                         ///   createOpening(openingLayer.ToString(), procentageOpening_C, "C", SheetMachineNameM19, openingTextLayer.ToString());
                         //     createOpening(openingLayer.ToString(), procentageOpening_C, "C", SheetMachineNameM20, openingTextLayer.ToString());
-                        createOpening(openingLayer.ToString(), procentageOpening_C, "C", collection.First(), openingTextLayer.ToString());
-                        createOpening(openingLayer.ToString(), procentageOpening_C, "C", collection.First() + 1, openingTextLayer.ToString());
-                        createOpening(openingLayer.ToString(), procentageOpening_C, "C", collection.First() + 2, openingTextLayer.ToString());
-                        createOpening(openingLayer.ToString(), procentageOpening_C, "C", collection.First() + 3, openingTextLayer.ToString());
+                        createOpening(openingLayer.ToString(), procentageOpening_C, "C", collection.First(), collection.First() + 1, collection.First() + 2,
+                             collection.First() + 3, openingTextLayer.ToString());
+                        //createOpening(openingLayer.ToString(), procentageOpening_C, "C", collection.First() + 1, openingTextLayer.ToString());
+                        //createOpening(openingLayer.ToString(), procentageOpening_C, "C", collection.First() + 2, openingTextLayer.ToString());
+                        //createOpening(openingLayer.ToString(), procentageOpening_C, "C", collection.First() + 3, openingTextLayer.ToString());
 
                         counter++;
                     }
 
 
-                   // for (int i = 0; i < collection.Count(); i++)
+                    // for (int i = 0; i < collection.Count(); i++)
                     //{ }
 
 
@@ -209,7 +214,7 @@ namespace XL_jobbet
         }
 
 
-        void createOpening(string openingLayer, string procent, string column, int SheetMachineName, string openingTextLayer)
+        void createOpening(string openingLayer, string procent, string column, int SheetMachineName, int SheetMachineName2, int SheetMachineName3, int SheetMachineName4, string openingTextLayer)
         {
 
             // xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm");
@@ -225,25 +230,46 @@ namespace XL_jobbet
                 Excel.Application xlApp = new Excel.Application();
                 Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2_Edit.xlsm", CorruptLoad: true);
                 Excel._Worksheet xlWorksheet = xlWorkbook.Sheets["Blad1"];
-               
+
                 xlApp.DisplayAlerts = false;
 
 
                 xlWorksheet.Cells[5, "C"] = openingLayer; // öppnings skiktet
 
                 xlWorksheet.Cells[6, "C"] = procent; // procent i öppning
-                Excel._Worksheet xlSheetMachineName = xlWorkbook.Sheets[SheetMachineName];
 
+                Excel._Worksheet xlSheetMachineName = xlWorkbook.Sheets[SheetMachineName];
 
                 xlSheetMachineName.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").ClearContents();
                 xlSheetMachineName.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").MergeCells = true;
-
-
-
                 xlSheetMachineName.get_Range($"B{openingTextLayer}").Value2 = "Fyll på material";
                 xlSheetMachineName.get_Range($"B{openingTextLayer}").Font.Bold = true;
-                //xlWorksheetM19.get_Range("B11", "K11").Font.Color = Color.Blue;
                 xlSheetMachineName.get_Range($"B{openingTextLayer}").Cells.Interior.Color = Color.Yellow;
+
+                Excel._Worksheet xlSheetMachineName2 = xlWorkbook.Sheets[SheetMachineName2];
+
+                xlSheetMachineName2.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").ClearContents();
+                xlSheetMachineName2.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").MergeCells = true;
+                xlSheetMachineName2.get_Range($"B{openingTextLayer}").Value2 = "Fyll på material";
+                xlSheetMachineName2.get_Range($"B{openingTextLayer}").Font.Bold = true;
+                xlSheetMachineName2.get_Range($"B{openingTextLayer}").Cells.Interior.Color = Color.Yellow;
+
+                Excel._Worksheet xlSheetMachineName3 = xlWorkbook.Sheets[SheetMachineName3];
+
+                xlSheetMachineName3.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").ClearContents();
+                xlSheetMachineName3.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").MergeCells = true;
+                xlSheetMachineName3.get_Range($"B{openingTextLayer}").Value2 = "Fyll på material";
+                xlSheetMachineName3.get_Range($"B{openingTextLayer}").Font.Bold = true;
+                xlSheetMachineName3.get_Range($"B{openingTextLayer}").Cells.Interior.Color = Color.Yellow;
+
+                Excel._Worksheet xlSheetMachineName4 = xlWorkbook.Sheets[SheetMachineName4];
+
+                xlSheetMachineName4.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").ClearContents();
+                xlSheetMachineName4.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").MergeCells = true;
+                xlSheetMachineName4.get_Range($"B{openingTextLayer}").Value2 = "Fyll på material";
+                xlSheetMachineName4.get_Range($"B{openingTextLayer}").Font.Bold = true;
+                xlSheetMachineName4.get_Range($"B{openingTextLayer}").Cells.Interior.Color = Color.Yellow;
+
 
 
                 xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm");
@@ -251,6 +277,14 @@ namespace XL_jobbet
 
                 //quit and release
                 xlApp.Quit();
+
+
+
+
+                if (SheetMachineName == 9) { ZnS_M18.BackColor = Color.Green; ZnS_M18.Checked = true; }
+                if (SheetMachineName2 == 10) { ZnS_M19.BackColor = Color.Green; ZnS_M19.Checked = true; }
+                if (SheetMachineName3 == 11) { ZnS_M20.BackColor = Color.Green; ZnS_M20.Checked = true; }
+                if (SheetMachineName4 == 12) { ZnS_M21.BackColor = Color.Green; ZnS_M21.Checked = true; }
 
             }
             else if (column.Equals("D"))
@@ -260,21 +294,40 @@ namespace XL_jobbet
                 Excel._Worksheet xlWorksheet = xlWorkbook.Sheets["Blad1"];
                 xlApp.DisplayAlerts = false;
 
-                xlWorksheet.Cells[5, "D"] = openingLayer; // öppnings skiktet
-
+                xlWorksheet.Cells[5, "D"] = openingLayer; // öppnings skikte
                 xlWorksheet.Cells[6, "D"] = procent; // procent i öppning
-                Excel._Worksheet xlSheetMachineName = xlWorkbook.Sheets[SheetMachineName];
 
+                Excel._Worksheet xlSheetMachineName = xlWorkbook.Sheets[SheetMachineName];
 
                 xlSheetMachineName.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").ClearContents();
                 xlSheetMachineName.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").MergeCells = true;
-
-
-
                 xlSheetMachineName.get_Range($"B{openingTextLayer}").Value2 = "Fyll på material";
                 xlSheetMachineName.get_Range($"B{openingTextLayer}").Font.Bold = true;
-                //xlWorksheetM19.get_Range("B11", "K11").Font.Color = Color.Blue;
                 xlSheetMachineName.get_Range($"B{openingTextLayer}").Cells.Interior.Color = Color.Yellow;
+
+                Excel._Worksheet xlSheetMachineName2 = xlWorkbook.Sheets[SheetMachineName2];
+
+                xlSheetMachineName2.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").ClearContents();
+                xlSheetMachineName2.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").MergeCells = true;
+                xlSheetMachineName2.get_Range($"B{openingTextLayer}").Value2 = "Fyll på material";
+                xlSheetMachineName2.get_Range($"B{openingTextLayer}").Font.Bold = true;
+                xlSheetMachineName2.get_Range($"B{openingTextLayer}").Cells.Interior.Color = Color.Yellow;
+
+                Excel._Worksheet xlSheetMachineName3 = xlWorkbook.Sheets[SheetMachineName3];
+
+                xlSheetMachineName3.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").ClearContents();
+                xlSheetMachineName3.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").MergeCells = true;
+                xlSheetMachineName3.get_Range($"B{openingTextLayer}").Value2 = "Fyll på material";
+                xlSheetMachineName3.get_Range($"B{openingTextLayer}").Font.Bold = true;
+                xlSheetMachineName3.get_Range($"B{openingTextLayer}").Cells.Interior.Color = Color.Yellow;
+
+                Excel._Worksheet xlSheetMachineName4 = xlWorkbook.Sheets[SheetMachineName4];
+
+                xlSheetMachineName4.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").ClearContents();
+                xlSheetMachineName4.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").MergeCells = true;
+                xlSheetMachineName4.get_Range($"B{openingTextLayer}").Value2 = "Fyll på material";
+                xlSheetMachineName4.get_Range($"B{openingTextLayer}").Font.Bold = true;
+                xlSheetMachineName4.get_Range($"B{openingTextLayer}").Cells.Interior.Color = Color.Yellow;
 
 
                 xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm");
@@ -283,6 +336,15 @@ namespace XL_jobbet
                 //quit and release
                 xlApp.Quit();
 
+
+                if (SheetMachineName == 9) { ZnS_II_M18.BackColor = Color.Green; ZnS_II_M18.Checked = true; }
+                if (SheetMachineName2 == 10) { ZnS_II_M19.BackColor = Color.Green; ZnS_II_M19.Checked = true; }
+                if (SheetMachineName3 == 11) { ZnS_II_M20.BackColor = Color.Green; ZnS_II_M20.Checked = true; }
+                if (SheetMachineName4 == 12) { ZnS_II_M21.BackColor = Color.Green; ZnS_II_M21.Checked = true; }
+
+
+
+ //xlWorksheetM19.get_Range("B11", "K11").Font.Color = Color.Blue;
             }
             else if (column.Equals("E"))
             {
@@ -297,18 +359,37 @@ namespace XL_jobbet
                 xlWorksheet.Cells[6, "E"] = procent; // procent i öppning
 
                 Excel._Worksheet xlSheetMachineName = xlWorkbook.Sheets[SheetMachineName];
-                //Excel.Range xlRange2 = xlWorksheet.UsedRange;
-
 
                 xlSheetMachineName.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").ClearContents();
                 xlSheetMachineName.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").MergeCells = true;
-
-
-
                 xlSheetMachineName.get_Range($"B{openingTextLayer}").Value2 = "Fyll på material";
                 xlSheetMachineName.get_Range($"B{openingTextLayer}").Font.Bold = true;
-                //xlWorksheetM19.get_Range("B11", "K11").Font.Color = Color.Blue;
                 xlSheetMachineName.get_Range($"B{openingTextLayer}").Cells.Interior.Color = Color.Yellow;
+
+                Excel._Worksheet xlSheetMachineName2 = xlWorkbook.Sheets[SheetMachineName2];
+
+                xlSheetMachineName2.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").ClearContents();
+                xlSheetMachineName2.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").MergeCells = true;
+                xlSheetMachineName2.get_Range($"B{openingTextLayer}").Value2 = "Fyll på material";
+                xlSheetMachineName2.get_Range($"B{openingTextLayer}").Font.Bold = true;
+                xlSheetMachineName2.get_Range($"B{openingTextLayer}").Cells.Interior.Color = Color.Yellow;
+
+                Excel._Worksheet xlSheetMachineName3 = xlWorkbook.Sheets[SheetMachineName3];
+
+                xlSheetMachineName3.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").ClearContents();
+                xlSheetMachineName3.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").MergeCells = true;
+                xlSheetMachineName3.get_Range($"B{openingTextLayer}").Value2 = "Fyll på material";
+                xlSheetMachineName3.get_Range($"B{openingTextLayer}").Font.Bold = true;
+                xlSheetMachineName3.get_Range($"B{openingTextLayer}").Cells.Interior.Color = Color.Yellow;
+
+                Excel._Worksheet xlSheetMachineName4 = xlWorkbook.Sheets[SheetMachineName4];
+
+                xlSheetMachineName4.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").ClearContents();
+                xlSheetMachineName4.get_Range($"B{openingTextLayer}", $"K{openingTextLayer}").MergeCells = true;
+                xlSheetMachineName4.get_Range($"B{openingTextLayer}").Value2 = "Fyll på material";
+                xlSheetMachineName4.get_Range($"B{openingTextLayer}").Font.Bold = true;
+                xlSheetMachineName4.get_Range($"B{openingTextLayer}").Cells.Interior.Color = Color.Yellow;
+
 
 
                 xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm");
@@ -316,12 +397,142 @@ namespace XL_jobbet
 
                 //quit and release
                 xlApp.Quit();
+
+
+                if (SheetMachineName == 9) { ZnS_III_M18.BackColor = Color.Green; ZnS_III_M18.Checked = true; }
+                if (SheetMachineName2 == 10) { ZnS_III_M19.BackColor = Color.Green; ZnS_III_M19.Checked = true; }
+                if (SheetMachineName3 == 11) { ZnS_III_M20.BackColor = Color.Green; ZnS_III_M20.Checked = true; }
+                if (SheetMachineName4 == 12) { ZnS_III_M21.BackColor = Color.Green; ZnS_III_M21.Checked = true; }
             }
 
 
 
 
         }
+
+        private void Export_DT_To_Excel_Click(object sender, EventArgs e)
+        {
+            ExportToExcel();
+        }
+        private void ExportToExcel()
+        {
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
+            //Creating DataTable
+            System.Data.DataTable dt = new System.Data.DataTable();
+
+            //Adding the Columns
+            foreach (DataGridViewColumn column in dataGridView1.Columns)
+            {
+                dt.Columns.Add(column.HeaderText, column.ValueType);
+            }
+
+            //Adding the Rows
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                dt.Rows.Add();
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    dt.Rows[dt.Rows.Count - 1][cell.ColumnIndex] = cell.Value.ToString();
+                }
+            }
+
+            //Excel Staff
+
+            // assigned
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "(*.xlsx),(*.xlsm)|*.xlsx,*.xlsm";
+            saveFileDialog1.Title = "Spara Excel Filen";
+            saveFileDialog1.ShowDialog();
+
+            if (saveFileDialog1.FileName != "")
+            {
+
+                System.IO.FileStream fs =
+                    (System.IO.FileStream)saveFileDialog1.OpenFile();
+
+                using (XLWorkbook wb = new XLWorkbook())
+                {
+
+                    try
+                    {
+                        wb.Worksheets.Add(dt, "KHAN_IMPORT");
+                        wb.SaveAs(fs);
+
+                    }
+                    catch (Exception)
+                    {
+
+                        // throw;
+                        MessageBox.Show("Stäng ner Excl filen först");
+
+                        return;
+                    }
+
+
+
+                }
+
+                fs.Close();
+            }
+
+        }
+
+
+
+
+        private void CleardataGrid(object sender, EventArgs e)
+        {
+            dataGridView1.Rows.Clear();
+            dataGridView1.Refresh();
+
+        }
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            DataObject o = (DataObject)Clipboard.GetDataObject();
+            if (o.GetDataPresent(DataFormats.Text))
+            {
+                if (dataGridView1.RowCount > 0)
+                    dataGridView1.Rows.Clear();
+
+                if (dataGridView1.ColumnCount > 0)
+                    dataGridView1.Columns.Clear();
+
+                bool columnsAdded = false;
+                string[] pastedRows = Regex.Split(o.GetData(DataFormats.Text).ToString().TrimEnd("\r\n".ToCharArray()), "\r\n");
+                int j = 0;
+                foreach (string pastedRow in pastedRows)
+                {
+                    string[] pastedRowCells = pastedRow.Split(new char[] { '\t' });
+
+                    if (!columnsAdded)
+                    {
+                        for (int i = 0; i < pastedRowCells.Length; i++)
+                            dataGridView1.Columns.Add("col" + i, pastedRowCells[i]);
+
+                        columnsAdded = true;
+                        continue;
+                    }
+
+                    dataGridView1.Rows.Add();
+                    int myRowIndex = dataGridView1.Rows.Count - 1;
+
+                    using (DataGridViewRow myDataGridViewRow = dataGridView1.Rows[j])
+                    {
+                        for (int i = 0; i < pastedRowCells.Length; i++)
+                            myDataGridViewRow.Cells[i].Value = pastedRowCells[i];
+                    }
+                    j++;
+                }
+            }
+        }
+ 
+
+
+
+        
 
 
         void pasteOpeningText(string MachineSheetName)  // 
@@ -437,83 +648,7 @@ namespace XL_jobbet
 
         private void button2_Click(object sender, EventArgs e)
         {
-            //Declare these two variables globally so you can access them from both
-            //Button1 and Button2.
-            Excel.Application objApp;
-            Excel._Workbook objBook;
-
-            Excel.Workbooks objBooks;
-            Excel.Sheets objSheets;
-            Excel._Worksheet objSheet;
-            Excel.Range range;
-
-            try
-            {
-                // Instantiate Excel and start a new workbook.
-                objApp = new Excel.Application();
-                objBooks = objApp.Workbooks;
-                objBook = objBooks.Add(Missing.Value);
-                objSheets = objBook.Worksheets;
-                objSheet = (Excel._Worksheet)objSheets.get_Item(1);
-
-                //Get the range where the starting cell has the address
-                //m_sStartingCell and its dimensions are m_iNumRows x m_iNumCols.
-                range = objSheet.get_Range("A1", Missing.Value);
-                range = range.get_Resize(5, 5);
-
-                if (this.FillWithStrings.Checked == false)
-                {
-                    //Create an array.
-                    double[,] saRet = new double[5, 5];
-
-                    //Fill the array.
-                    for (long iRow = 0; iRow < 5; iRow++)
-                    {
-                        for (long iCol = 0; iCol < 5; iCol++)
-                        {
-                            //Put a counter in the cell.
-                            saRet[iRow, iCol] = iRow * iCol;
-                        }
-                    }
-
-                    //Set the range value to the array.
-                    range.set_Value(Missing.Value, saRet);
-                }
-
-                else
-                {
-                    //Create an array.
-                    string[,] saRet = new string[5, 5];
-
-                    //Fill the array.
-                    for (long iRow = 0; iRow < 5; iRow++)
-                    {
-                        for (long iCol = 0; iCol < 5; iCol++)
-                        {
-                            //Put the row and column address in the cell.
-                            saRet[iRow, iCol] = iRow.ToString() + "|" + iCol.ToString();
-                        }
-                    }
-
-                    //Set the range value to the array.
-                    range.set_Value(Missing.Value, saRet);
-                }
-
-                //Return control of Excel to the user.
-                objApp.Visible = true;
-                objApp.UserControl = true;
-            }
-            catch (Exception theException)
-            {
-                String errorMessage;
-                errorMessage = "Error: ";
-                errorMessage = String.Concat(errorMessage, theException.Message);
-                errorMessage = String.Concat(errorMessage, " Line: ");
-                errorMessage = String.Concat(errorMessage, theException.Source);
-
-                //MessageBox.Show(errorMessage, "Error");
-            }
-
+           
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -606,9 +741,9 @@ namespace XL_jobbet
             Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2.xlsm", CorruptLoad: true);
             xlApp.DisplayAlerts = false;
 
-          //  xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm");
+            //  xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm");
             xlWorkbook.Close();
-         
+
 
         }
 

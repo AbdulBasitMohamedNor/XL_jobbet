@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.97.0" />
     <PackageReference Include="DevExpress.Win.Dashboard.CustomItemExtension" Version="22.1.0.1" />
     <PackageReference Include="IronXL.Excel" Version="2019.5.0" />
   </ItemGroup>
