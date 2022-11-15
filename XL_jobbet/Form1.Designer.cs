@@ -29,6 +29,7 @@ namespace XL_jobbet
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.button1 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
@@ -54,6 +55,7 @@ namespace XL_jobbet
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Export_DT_To_Excel = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.SaveNewXLfile = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -62,18 +64,18 @@ namespace XL_jobbet
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(130, 1073);
+            this.button1.Location = new System.Drawing.Point(114, 1142);
             this.button1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(320, 37);
             this.button1.TabIndex = 0;
-            this.button1.Text = "Öppna_Mall-skapa_öppningar+kälpåfyll";
+            this.button1.Text = "Öppna_Mall-skapa_öppningar+källpåfyll";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(130, 1127);
+            this.button4.Location = new System.Drawing.Point(114, 1196);
             this.button4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(320, 37);
@@ -84,12 +86,12 @@ namespace XL_jobbet
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(130, 1180);
+            this.button8.Location = new System.Drawing.Point(114, 1249);
             this.button8.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(320, 37);
             this.button8.TabIndex = 5;
-            this.button8.Text = "Get_excel_Sheet_names&Indexes";
+            this.button8.Text = "Get_excel_Sheet_Names_And_Indexes";
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.button8_Click_1);
             // 
@@ -100,7 +102,7 @@ namespace XL_jobbet
             this.groupBox1.Controls.Add(this.ZnS_M20);
             this.groupBox1.Controls.Add(this.ZnS_M27);
             this.groupBox1.Controls.Add(this.ZnS_M19);
-            this.groupBox1.Location = new System.Drawing.Point(27, 755);
+            this.groupBox1.Location = new System.Drawing.Point(33, 839);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(150, 284);
             this.groupBox1.TabIndex = 12;
@@ -164,7 +166,7 @@ namespace XL_jobbet
             this.groupBox2.Controls.Add(this.ZnS_II_M20);
             this.groupBox2.Controls.Add(this.ZnS_II_M27);
             this.groupBox2.Controls.Add(this.ZnS_II_M19);
-            this.groupBox2.Location = new System.Drawing.Point(197, 755);
+            this.groupBox2.Location = new System.Drawing.Point(203, 839);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(150, 284);
             this.groupBox2.TabIndex = 13;
@@ -228,7 +230,7 @@ namespace XL_jobbet
             this.groupBox3.Controls.Add(this.ZnS_III_M20);
             this.groupBox3.Controls.Add(this.ZnS_III_M27);
             this.groupBox3.Controls.Add(this.ZnS_III_M19);
-            this.groupBox3.Location = new System.Drawing.Point(376, 755);
+            this.groupBox3.Location = new System.Drawing.Point(382, 839);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(150, 284);
             this.groupBox3.TabIndex = 14;
@@ -287,20 +289,28 @@ namespace XL_jobbet
             // 
             // dataGridView1
             // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(33, 12);
+            this.dataGridView1.Location = new System.Drawing.Point(33, 60);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 33;
-            this.dataGridView1.Size = new System.Drawing.Size(482, 725);
+            this.dataGridView1.Size = new System.Drawing.Size(482, 755);
             this.dataGridView1.TabIndex = 15;
             // 
             // Export_DT_To_Excel
             // 
-            this.Export_DT_To_Excel.Location = new System.Drawing.Point(270, 1236);
+            this.Export_DT_To_Excel.Location = new System.Drawing.Point(203, 12);
             this.Export_DT_To_Excel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Export_DT_To_Excel.Name = "Export_DT_To_Excel";
-            this.Export_DT_To_Excel.Size = new System.Drawing.Size(180, 37);
+            this.Export_DT_To_Excel.Size = new System.Drawing.Size(161, 37);
             this.Export_DT_To_Excel.TabIndex = 16;
             this.Export_DT_To_Excel.Text = "Export_DT_To_Excel";
             this.Export_DT_To_Excel.UseVisualStyleBackColor = true;
@@ -308,14 +318,25 @@ namespace XL_jobbet
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(130, 1236);
+            this.button2.Location = new System.Drawing.Point(21, 12);
             this.button2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(132, 37);
+            this.button2.Size = new System.Drawing.Size(162, 37);
             this.button2.TabIndex = 17;
-            this.button2.Text = "KlistraInD";
+            this.button2.Text = "KlistraIn_D";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click_1);
+            // 
+            // SaveNewXLfile
+            // 
+            this.SaveNewXLfile.Location = new System.Drawing.Point(380, 12);
+            this.SaveNewXLfile.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.SaveNewXLfile.Name = "SaveNewXLfile";
+            this.SaveNewXLfile.Size = new System.Drawing.Size(152, 37);
+            this.SaveNewXLfile.TabIndex = 18;
+            this.SaveNewXLfile.Text = "SaveXLfile";
+            this.SaveNewXLfile.UseVisualStyleBackColor = true;
+            this.SaveNewXLfile.Click += new System.EventHandler(this.SaveNewXLfile_Click);
             // 
             // Form1
             // 
@@ -323,6 +344,7 @@ namespace XL_jobbet
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(551, 1299);
+            this.Controls.Add(this.SaveNewXLfile);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.Export_DT_To_Excel);
             this.Controls.Add(this.dataGridView1);
@@ -374,6 +396,7 @@ namespace XL_jobbet
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button Export_DT_To_Excel;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button SaveNewXLfile;
     }
 }
 

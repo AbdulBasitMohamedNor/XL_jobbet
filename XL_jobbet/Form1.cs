@@ -35,30 +35,35 @@ namespace XL_jobbet
         string ThirdOpening = "0";
         string procent3 = "60";
         int counter = 0;
-        string wkBook = @"C:\Excel\BP2.xlsm";
+        string wkBook = @"C:\Excel\BP2_Edit.xlsm";
 
         public Form1()
-        {
+        { 
+           
+
             InitializeComponent();
             IronXL.License.LicenseKey = "IRONXL-BOARD4ALL.BIZ-121256-ED1A78B-32A539DF9-D4FF3B-NEx-R1B";
 
             //Supported spreadsheet formats for reading include: XLSX, XLS, CSV and TSV
-            killExcel();
-            //MessageBox.Show($"openong for {column}");
-            Excel.Application xlApp = new Excel.Application();
+          
+       /*     //MessageBox.Show($"openong for {column}");
+          Excel.Application xlApp = new Excel.Application();
             Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2.xlsm", CorruptLoad: true);
             xlApp.DisplayAlerts = false;
 
             xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm");
             xlWorkbook.Close();
-            xlApp.Quit();
-
+            xlApp.Quit();  */
+           
+            this.dataGridView1.RowHeadersVisible = false;
 
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            killExcel();
+            killExcel();
+            exportToExcelCell();
 
             WorkBook workbook = WorkBook.Load(wkBook);
             WorkSheet oldSheet = workbook.WorkSheets.First();
@@ -214,14 +219,14 @@ namespace XL_jobbet
         }
 
 
-        void createOpening(string openingLayer, string procent, string column, int SheetMachineName, int SheetMachineName2, int SheetMachineName3, int SheetMachineName4, string openingTextLayer)
+        void createOpening(string openingLayer, string procent, string column, int SheetMachineName,
+            int SheetMachineName2, int SheetMachineName3, int SheetMachineName4, string openingTextLayer)
         {
 
             // xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm");
 
 
-
-            //Create Openeing///
+         /**/   //Create Openeing///
             if (column.Equals("C"))
             {
 
@@ -409,80 +414,47 @@ namespace XL_jobbet
 
 
         }
-
         private void Export_DT_To_Excel_Click(object sender, EventArgs e)
         {
-            ExportToExcel();
+            exportToExcelCell();
         }
-        private void ExportToExcel()
+
+        void exportToExcelCell()
         {
-
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-
-            //Creating DataTable
-            System.Data.DataTable dt = new System.Data.DataTable();
-
-            //Adding the Columns
-            foreach (DataGridViewColumn column in dataGridView1.Columns)
-            {
-                dt.Columns.Add(column.HeaderText, column.ValueType);
-            }
-
-            //Adding the Rows
-            foreach (DataGridViewRow row in dataGridView1.Rows)
-            {
-                dt.Rows.Add();
-                foreach (DataGridViewCell cell in row.Cells)
-                {
-                    dt.Rows[dt.Rows.Count - 1][cell.ColumnIndex] = cell.Value.ToString();
-                }
-            }
-
-            //Excel Staff
-
-            // assigned
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.Filter = "(*.xlsx),(*.xlsm)|*.xlsx,*.xlsm";
-            saveFileDialog1.Title = "Spara Excel Filen";
-            saveFileDialog1.ShowDialog();
-
-            if (saveFileDialog1.FileName != "")
-            {
-
-                System.IO.FileStream fs =
-                    (System.IO.FileStream)saveFileDialog1.OpenFile();
-
-                using (XLWorkbook wb = new XLWorkbook())
-                {
-
-                    try
-                    {
-                        wb.Worksheets.Add(dt, "KHAN_IMPORT");
-                        wb.SaveAs(fs);
-
-                    }
-                    catch (Exception)
-                    {
-
-                        // throw;
-                        MessageBox.Show("Stäng ner Excl filen först");
-
-                        return;
-                    }
+            Excel.Application xlApp = new Excel.Application();
+            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2.xlsm", CorruptLoad: true);
+            Excel._Worksheet xlWorksheet = xlWorkbook.Sheets["Steg 1"];
+           // xlApp.Visible = true;
+            xlApp.DisplayAlerts = false;
 
 
 
-                }
+            
+            dataGridView1.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
+            dataGridView1.MultiSelect = true;
+                dataGridView1.SelectAll();
+            DataObject dataObj = dataGridView1.GetClipboardContent();
+            if (dataObj != null)
+                Clipboard.SetDataObject(dataObj);
 
-                fs.Close();
-            }
+            Excel.Range CR = (Excel.Range)xlWorksheet.Cells[1, "C"];
+            CR.Select();
+            xlWorksheet.PasteSpecial(CR, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, true);
 
+
+
+
+            xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm");
+            xlWorkbook.Close();
+
+            //quit and release
+            xlApp.Quit();
         }
 
-
-
-
+        private void SaveNewXLfile_Click(object sender, EventArgs e)
+        {
+           
+        }
         private void CleardataGrid(object sender, EventArgs e)
         {
             dataGridView1.Rows.Clear();
@@ -491,6 +463,7 @@ namespace XL_jobbet
         }
         private void button2_Click_1(object sender, EventArgs e)
         {
+          
             DataObject o = (DataObject)Clipboard.GetDataObject();
             if (o.GetDataPresent(DataFormats.Text))
             {
@@ -499,16 +472,17 @@ namespace XL_jobbet
 
                 if (dataGridView1.ColumnCount > 0)
                     dataGridView1.Columns.Clear();
-
+              //  dataGridView1.Columns.Add("colName", "colHeaderText");
                 bool columnsAdded = false;
                 string[] pastedRows = Regex.Split(o.GetData(DataFormats.Text).ToString().TrimEnd("\r\n".ToCharArray()), "\r\n");
                 int j = 0;
                 foreach (string pastedRow in pastedRows)
                 {
                     string[] pastedRowCells = pastedRow.Split(new char[] { '\t' });
-
+                    
                     if (!columnsAdded)
                     {
+                        
                         for (int i = 0; i < pastedRowCells.Length; i++)
                             dataGridView1.Columns.Add("col" + i, pastedRowCells[i]);
 
@@ -521,6 +495,7 @@ namespace XL_jobbet
 
                     using (DataGridViewRow myDataGridViewRow = dataGridView1.Rows[j])
                     {
+
                         for (int i = 0; i < pastedRowCells.Length; i++)
                             myDataGridViewRow.Cells[i].Value = pastedRowCells[i];
                     }
@@ -535,45 +510,6 @@ namespace XL_jobbet
         
 
 
-        void pasteOpeningText(string MachineSheetName)  // 
-        {
-
-            Excel.Application xlApp = new Excel.Application();
-            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2.xlsm", CorruptLoad: true);
-            Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[MachineSheetName];
-            Excel.Range xlRange = xlWorksheet.UsedRange;
-
-            //   Cell sourceCell = xlWorksheet.Cells["A1"];
-            var range = xlWorksheet.Cells[1, 4];
-            //xlRange.Formula = "= PI()";
-            xlRange.NumberFormat = "0.0000";
-            //xlRange.Style = style;
-            xlRange.Font.Color = Color.Blue;
-            xlRange.Font.Bold = true;
-
-
-
-
-
-
-            /////END///////
-            //close and release
-            xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edited_1.xlsm");
-            xlWorkbook.Close();
-
-
-            //quit and release
-            xlApp.Quit();
-
-            /*  */
-
-            ///COPY Code
-            /* 
-             Excel.Range source = xlWorksheet.Range["A9:L9"].Insert(Excel.XlInsertShiftDirection.xlShiftDown);
-             Excel.Range destination = xlWorksheet.Range["F10"];
-             source.Copy(destination);
-             */
-        }
 
         private void killExcel()
         {
@@ -629,22 +565,6 @@ namespace XL_jobbet
 
 
 
-
-        private void readExcel()
-        {
-            /* string filePath = @"C:\Excel\BP.xlsm";
-              Excel = new Excel.Application();
-              Excel.Workbook wb;
-              Excel.Worksheet ws;
-              wb = Excel.Workbooks.Open(filePath);
-              ws = wb.Worksheets[1];
-
-              Excel.Range cell = ws.Cells["A1:A2"];
-              foreach (string Result in cell.Value)
-              {
-                  //MessageBox.Show(Result);
-              }*/
-        }
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -816,3 +736,34 @@ double ECell = sheet[$"E{cell.RowIndex }"].DoubleValue;
    {
        //MessageBox.Show(cell.AddressString + " Innehåller G ");
    }*/
+
+
+/*
+   if (j == 3)
+                    {
+                        xlWorksheet.Cells[i + 2, j + 3] = Convert.ToDecimal(dataGridView1.Rows(i).Cells(j).Value)
+}
+                    else
+                    {
+                        xlWorksheet.Cells[i   2, j   1] = dataGridView1.Rows[i].Cells[j].Value.ToString();
+                    }
+ */
+
+
+/* // storing header part in Excel  
+ for (int i = 1; i < dataGridView1.Columns.Count + 0; i++)
+ {
+     xlWorksheet.Cells[1, "C"] = dataGridView1.Columns[i - 1].HeaderText;
+ }
+ // storing Each row and column value to excel sheet  
+ for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
+ {
+     for (int j = 0; j < dataGridView1.Columns.Count; j++)
+     {
+
+
+         xlWorksheet.Cells[i + 2, j + 3] = dataGridView1.Rows[i].Cells[j].Value;
+             ; 
+         // string.Format("{0}" , dataGridView1.Rows[r].Cells[i].FormattedValue)
+     }
+ }/**/
