@@ -35,80 +35,30 @@ namespace XL_jobbet
         string ThirdOpening = "0";
         string procent3 = "60";
         int counter = 0;
-        string wkBook = @"C:\Excel\BP2_Edit.xlsm";
+        string wkBook = @"C:\Excel\BP2.xlsm";
 
         public Form1()
         {
-
-
             InitializeComponent();
             IronXL.License.LicenseKey = "IRONXL-BOARD4ALL.BIZ-121256-ED1A78B-32A539DF9-D4FF3B-NEx-R1B";
 
             //Supported spreadsheet formats for reading include: XLSX, XLS, CSV and TSV
-
+            killExcel();
             //MessageBox.Show($"openong for {column}");
-            /*    Excel.Application xlApp = new Excel.Application();
-              Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2.xlsm", CorruptLoad: false);
-              xlApp.DisplayAlerts = false;
+            Excel.Application xlApp = new Excel.Application();
+            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2.xlsm", CorruptLoad: true);
+            xlApp.DisplayAlerts = false;
 
-              xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm", Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-              xlWorkbook.Close();
-              xlApp.Quit();*/
+            xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm");
+            xlWorkbook.Close();
+            xlApp.Quit();
 
-            this.dataGridView1.RowHeadersVisible = false;
 
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            killExcel();
 
-            dataGridView1.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
-            dataGridView1.MultiSelect = true;
-            dataGridView1.SelectAll();
-            DataObject dataObj = dataGridView1.GetClipboardContent();
-            if (dataObj != null)
-                Clipboard.SetDataObject(dataObj);
-
-
-
-            // paste  design optical data into Excel 
-            Excel.Application xlApp = new Excel.Application();
-            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2.xlsm",
-                                                         Type.Missing,
-                                                        false,
-                                                         Type.Missing,
-                                                         Type.Missing,
-                                                         Type.Missing,
-                                                        true,
-                                                         Type.Missing,
-                                                         Type.Missing,
-                                                        true,
-                                                         Type.Missing,
-                                                         Type.Missing,
-                                                         Type.Missing);
-            // xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm", Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-            Excel._Worksheet xlWorksheet = xlWorkbook.Sheets["Steg 1"];
-            // xlApp.Visible = true;
-            Excel.Range CR = (Excel.Range)xlWorksheet.Cells[1, "C"];
-            CR.Select();
-            xlApp.DisplayAlerts = false;
-            xlWorksheet.PasteSpecial(CR, false, false, Type.Missing, Type.Missing, Type.Missing, true);
-
-            // //  xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm", Type.Missing, Type.Missing, Type.Missing, false);
-
-            xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm", Type.Missing, Type.Missing, Type.Missing, false, false, Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-            //xlWorkbook.Save();
-            //xlWorkbook.Close();
-
-            xlWorkbook.RefreshAll();
-            xlApp.Calculate();
-            xlWorkbook.Close(true);
-            xlApp.Quit();
-            killExcel();
-
-
-            //-------------------------------------------------------
 
             WorkBook workbook = WorkBook.Load(wkBook);
             WorkSheet oldSheet = workbook.WorkSheets.First();
@@ -128,13 +78,13 @@ namespace XL_jobbet
                 //********************Iterate down the columns and read a specific cell************************//
 
 
-                if (DCell.ToString().Contains("G") && CCell >= 1.99999) // hitta kaviteten
+                if (DCell.ToString().Contains("G") && CCell >= 1.99999)
                 {
 
                     ////MessageBox.Show(" skikt nr: " + ECell.ToString() + " Innehåller: " + DCell + " Opt. Thickness = " + CCell.ToString());
 
                     double openingLayer = ECell + 2; // Ändra i denna om öppningen ska ske i ett anna skikt. flytta tvåan till en global variabel
-                    double openingTextLayer; // Cell nummer och operation för "fyll på material och korrigera" Texten 
+                    double openingTextLayer; // Cell nummer och operation för "fyll på material och korrigera" Textgen 
 
                     string procentageOpening_C = "50%";
                     string procentageOpening_D = "60%";
@@ -143,7 +93,7 @@ namespace XL_jobbet
                     string SheetMachineNameM20 = "M20 (ZnS)"; // "M27 (SiO)";
                     string SheetMachineNameM21 = "M21 (ZnS)"; // "M27 (SiO)";
 
-
+   
 
                     IEnumerable<int> collection = new List<int>() { 9, 10 }; //,  "M18 (ZnS)", "M19 (ZnS)", "M20 (ZnS) // collection.ElementAt(0);
                     var firstCollectiion = collection.ElementAt(0);
@@ -154,18 +104,15 @@ namespace XL_jobbet
 
                     if (counter == 2)
                     {
-                        
                         openingTextLayer = openingLayer + 7;
                         ////MessageBox.Show("Counter value is : " + counter.ToString());
                         ///  createOpening(openingLayer.ToString(), procentageOpening_C, "E", SheetMachineNameM19, openingTextLayer.ToString());
-                        //createOpening(openingLayer.ToString(), procentageOpening_C, "E", SheetMachineNameM20, openingTextLayer.ToString()); 
-                        workbook.Close();
+                        //createOpening(openingLayer.ToString(), procentageOpening_C, "E", SheetMachineNameM20, openingTextLayer.ToString());
                         createOpening(openingLayer.ToString(), procentageOpening_C, "E", collection.First(), collection.First() + 1, collection.First() + 2,
                         collection.First() + 3, openingTextLayer.ToString());
                         //createOpening(openingLayer.ToString(), procentageOpening_E, "E", collection.First() + 1, openingTextLayer.ToString());
                         //createOpening(openingLayer.ToString(), procentageOpening_E, "E", collection.First() + 2, openingTextLayer.ToString());
                         //createOpening(openingLayer.ToString(), procentageOpening_E, "E", collection.First() + 3, openingTextLayer.ToString());
-                       
                         counter++;
                     }
                     if (counter == 1)
@@ -173,42 +120,38 @@ namespace XL_jobbet
                         openingTextLayer = openingLayer + 5;
                         ////MessageBox.Show("Counter value is : " + counter.ToString());
                         ///  createOpening(openingLayer.ToString(), procentageOpening_C, "D", SheetMachineNameM19, openingTextLayer.ToString());
-                        //createOpening(openingLayer.ToString(), procentageOpening_C, "D", SheetMachineNameM20, openingTextLayer.ToString()); 
-                        workbook.Close();
+                        //createOpening(openingLayer.ToString(), procentageOpening_C, "D", SheetMachineNameM20, openingTextLayer.ToString());
                         createOpening(openingLayer.ToString(), procentageOpening_C, "D", collection.First(), collection.First() + 1, collection.First() + 2,
                         collection.First() + 3, openingTextLayer.ToString());
                         //createOpening(openingLayer.ToString(), procentageOpening_D, "D", collection.First() + 1, openingTextLayer.ToString());
                         //createOpening(openingLayer.ToString(), procentageOpening_D, "D", collection.First() + 2, openingTextLayer.ToString());
                         //createOpening(openingLayer.ToString(), procentageOpening_D, "D", collection.First() + 3, openingTextLayer.ToString());
-                       
+
                         counter++;
                     }
                     if (counter == 0)
                     {
-                        
                         openingTextLayer = openingLayer + 3;
                         ////MessageBox.Show("Counter value is : " + counter.ToString());
                         ///   createOpening(openingLayer.ToString(), procentageOpening_C, "C", SheetMachineNameM19, openingTextLayer.ToString());
-                        //     createOpening(openingLayer.ToString(), procentageOpening_C, "C", SheetMachineNameM20, openingTextLayer.ToString()); 
-                        workbook.Close();
+                        //     createOpening(openingLayer.ToString(), procentageOpening_C, "C", SheetMachineNameM20, openingTextLayer.ToString());
                         createOpening(openingLayer.ToString(), procentageOpening_C, "C", collection.First(), collection.First() + 1, collection.First() + 2,
                              collection.First() + 3, openingTextLayer.ToString());
                         //createOpening(openingLayer.ToString(), procentageOpening_C, "C", collection.First() + 1, openingTextLayer.ToString());
                         //createOpening(openingLayer.ToString(), procentageOpening_C, "C", collection.First() + 2, openingTextLayer.ToString());
                         //createOpening(openingLayer.ToString(), procentageOpening_C, "C", collection.First() + 3, openingTextLayer.ToString());
-                       
+
                         counter++;
                     }
+
+
 
                 }
 
 
 
 
-
             }
-            
-            workbook.Close();
             killExcel();
 
         }
@@ -219,28 +162,16 @@ namespace XL_jobbet
 
             // xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm");
 
- Excel.Application xlApp = new Excel.Application();
+
 
             //Create Openeing///
             if (column.Equals("C"))
             {
-                killExcel();
+
                 //_____________________________________________________________________
 
-               
-                Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2_Edit.xlsm",
-                                                         Type.Missing,
-                                                        false,
-                                                         Type.Missing,
-                                                         Type.Missing,
-                                                         Type.Missing,
-                                                        true,
-                                                         Type.Missing,
-                                                         Type.Missing,
-                                                        true,
-                                                         Type.Missing,
-                                                         Type.Missing,
-                                                         Type.Missing);
+                Excel.Application xlApp = new Excel.Application();
+                Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2_Edit.xlsm", CorruptLoad: true);
                 Excel._Worksheet xlWorksheet = xlWorkbook.Sheets["Blad1"];
 
                 xlApp.DisplayAlerts = false;
@@ -284,18 +215,12 @@ namespace XL_jobbet
 
 
 
-                //    xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm", Type.Missing, Type.Missing, Type.Missing, ReadOnlyRecommended: true, CreateBackup: false, Excel.XlSaveAsAccessMode.xlShared, null, null, null, null, null, null);
-               // xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm");
-
-                //  xlWorkbook.Save();
+                xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm");
+                xlWorkbook.Close();
 
                 //quit and release
-             /*  xlWorkbook.RefreshAll();
-                xlApp.Calculate();
-                xlWorkbook.Close(true);
-                xlApp.Quit();*/
+                xlApp.Quit();
 
-                //     KillSpecificExcelFileProcess(@"C:\Excel\BP2_Edit.xlsm");
 
 
 
@@ -307,22 +232,8 @@ namespace XL_jobbet
             }
             else if (column.Equals("D"))
             {
-               // Excel.Application xlApp = new Excel.Application();
-                Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2_Edit.xlsm",
-                                                         Type.Missing,
-                                                        false,
-                                                         Type.Missing,
-                                                         Type.Missing,
-                                                         Type.Missing,
-                                                        true,
-                                                         Type.Missing,
-                                                         Type.Missing,
-                                                        true,
-                                                         Type.Missing,
-                                                         Type.Missing,
-                                                         Type.Missing);
-
-
+                Excel.Application xlApp = new Excel.Application();
+                Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2_Edit.xlsm", CorruptLoad: true);
                 Excel._Worksheet xlWorksheet = xlWorkbook.Sheets["Blad1"];
                 xlApp.DisplayAlerts = false;
 
@@ -362,19 +273,11 @@ namespace XL_jobbet
                 xlSheetMachineName4.get_Range($"B{openingTextLayer}").Cells.Interior.Color = Color.Yellow;
 
 
-                //  xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit2.xlsm");
-                //  xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm", Type.Missing, Type.Missing, Type.Missing, ReadOnlyRecommended:false, CreateBackup:false, Excel.XlSaveAsAccessMode.xlNoChange, null, null, null,  null, null, null);
-                // xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm" , Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+                xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm");
+                xlWorkbook.Close();
 
-      
-                //xlWorkbook.SaveAs(@"C:\Excel\BP2_Edit.xlsm");
-           
-
-                xlWorkbook.RefreshAll();
-                xlApp.Calculate();
-                xlWorkbook.Close(true);
+                //quit and release
                 xlApp.Quit();
-                //   KillSpecificExcelFileProcess(@"C:\Excel\BP2_Edit.xlsm");
 
 
                 if (SheetMachineName == 9) { ZnS_II_M18.BackColor = Color.Green; ZnS_II_M18.Checked = true; }
@@ -385,7 +288,7 @@ namespace XL_jobbet
 
 
                 //xlWorksheetM19.get_Range("B11", "K11").Font.Color = Color.Blue;
-            } /*
+            }
             else if (column.Equals("E"))
             {
                 Excel.Application xlApp = new Excel.Application();
@@ -434,93 +337,95 @@ namespace XL_jobbet
 
                 xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm");
                 xlWorkbook.Close();
-               
+
                 //quit and release
                 xlApp.Quit();
-                KillSpecificExcelFileProcess(@"C:\Excel\BP2_Edit.xlsm");
+
 
                 if (SheetMachineName == 9) { ZnS_III_M18.BackColor = Color.Green; ZnS_III_M18.Checked = true; }
                 if (SheetMachineName2 == 10) { ZnS_III_M19.BackColor = Color.Green; ZnS_III_M19.Checked = true; }
                 if (SheetMachineName3 == 11) { ZnS_III_M20.BackColor = Color.Green; ZnS_III_M20.Checked = true; }
                 if (SheetMachineName4 == 12) { ZnS_III_M21.BackColor = Color.Green; ZnS_III_M21.Checked = true; }
             }
-*/
+
 
 
 
         }
-
 
         private void Export_DT_To_Excel_Click(object sender, EventArgs e)
         {
-            exportToExcelCell();
+            ExportToExcel();
         }
-
-        void exportToExcelCell()
+        private void ExportToExcel()
         {
-            Excel.Application xlApp = new Excel.Application();
-            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2.xlsm", CorruptLoad: false);
-            Excel._Worksheet xlWorksheet = xlWorkbook.Sheets["Steg 1"];
-            // xlApp.Visible = true;
-            xlApp.DisplayAlerts = false;
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
+            //Creating DataTable
+            System.Data.DataTable dt = new System.Data.DataTable();
+
+            //Adding the Columns
+            foreach (DataGridViewColumn column in dataGridView1.Columns)
+            {
+                dt.Columns.Add(column.HeaderText, column.ValueType);
+            }
+
+            //Adding the Rows
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                dt.Rows.Add();
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    dt.Rows[dt.Rows.Count - 1][cell.ColumnIndex] = cell.Value.ToString();
+                }
+            }
+
+            //Excel Staff
+
+            // assigned
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "(*.xlsx),(*.xlsm)|*.xlsx,*.xlsm";
+            saveFileDialog1.Title = "Spara Excel Filen";
+            saveFileDialog1.ShowDialog();
+
+            if (saveFileDialog1.FileName != "")
+            {
+
+                System.IO.FileStream fs =
+                    (System.IO.FileStream)saveFileDialog1.OpenFile();
+
+                using (XLWorkbook wb = new XLWorkbook())
+                {
+
+                    try
+                    {
+                        wb.Worksheets.Add(dt, "KHAN_IMPORT");
+                        wb.SaveAs(fs);
+
+                    }
+                    catch (Exception)
+                    {
+
+                        // throw;
+                        MessageBox.Show("Stäng ner Excl filen först");
+
+                        return;
+                    }
 
 
 
+                }
 
-            dataGridView1.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
-            dataGridView1.MultiSelect = true;
-            dataGridView1.SelectAll();
-            DataObject dataObj = dataGridView1.GetClipboardContent();
-            if (dataObj != null)
-                Clipboard.SetDataObject(dataObj);
+                fs.Close();
+            }
 
-            Excel.Range CR = (Excel.Range)xlWorksheet.Cells[1, "C"];
-            CR.Select();
-            xlWorksheet.PasteSpecial(CR, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, true);
-
-
-
-
-            xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm", Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-
-            xlWorkbook.Close();
-
-            //quit and release
-            xlApp.Quit();
-            killExcel();
         }
 
-        private void SaveNewXLfile_Click(object sender, EventArgs e)
-        {
-            killExcel();
-
-            dataGridView1.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
-            dataGridView1.MultiSelect = true;
-            dataGridView1.SelectAll();
-            DataObject dataObj = dataGridView1.GetClipboardContent();
-            if (dataObj != null)
-                Clipboard.SetDataObject(dataObj);
 
 
 
-            // paste  design optical data into Excel 
-            Excel.Application xlApp = new Excel.Application();
-            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2.xlsm", CorruptLoad: false);
-            // xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm", Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-            Excel._Worksheet xlWorksheet = xlWorkbook.Sheets["Steg 1"];
-            // xlApp.Visible = true;
-            Excel.Range CR = (Excel.Range)xlWorksheet.Cells[1, "C"];
-            CR.Select();
-            xlApp.DisplayAlerts = false;
-            xlWorksheet.PasteSpecial(CR, false, false, Type.Missing, Type.Missing, Type.Missing, true);
-
-            xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm");
-            xlWorkbook.Close();
-            xlApp.Workbooks.Close();
-            xlApp.Quit();
-            killExcel();
-            KillSpecificExcelFileProcess(@"C:\Excel\BP2_Edit.xlsm");
-        }
         private void CleardataGrid(object sender, EventArgs e)
         {
             dataGridView1.Rows.Clear();
@@ -529,7 +434,6 @@ namespace XL_jobbet
         }
         private void button2_Click_1(object sender, EventArgs e)
         {
-
             DataObject o = (DataObject)Clipboard.GetDataObject();
             if (o.GetDataPresent(DataFormats.Text))
             {
@@ -538,7 +442,7 @@ namespace XL_jobbet
 
                 if (dataGridView1.ColumnCount > 0)
                     dataGridView1.Columns.Clear();
-                //  dataGridView1.Columns.Add("colName", "colHeaderText");
+
                 bool columnsAdded = false;
                 string[] pastedRows = Regex.Split(o.GetData(DataFormats.Text).ToString().TrimEnd("\r\n".ToCharArray()), "\r\n");
                 int j = 0;
@@ -548,7 +452,6 @@ namespace XL_jobbet
 
                     if (!columnsAdded)
                     {
-
                         for (int i = 0; i < pastedRowCells.Length; i++)
                             dataGridView1.Columns.Add("col" + i, pastedRowCells[i]);
 
@@ -561,7 +464,6 @@ namespace XL_jobbet
 
                     using (DataGridViewRow myDataGridViewRow = dataGridView1.Rows[j])
                     {
-
                         for (int i = 0; i < pastedRowCells.Length; i++)
                             myDataGridViewRow.Cells[i].Value = pastedRowCells[i];
                     }
@@ -576,6 +478,45 @@ namespace XL_jobbet
 
 
 
+        void pasteOpeningText(string MachineSheetName)  // 
+        {
+
+            Excel.Application xlApp = new Excel.Application();
+            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2.xlsm", CorruptLoad: true);
+            Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[MachineSheetName];
+            Excel.Range xlRange = xlWorksheet.UsedRange;
+
+            //   Cell sourceCell = xlWorksheet.Cells["A1"];
+            var range = xlWorksheet.Cells[1, 4];
+            //xlRange.Formula = "= PI()";
+            xlRange.NumberFormat = "0.0000";
+            //xlRange.Style = style;
+            xlRange.Font.Color = Color.Blue;
+            xlRange.Font.Bold = true;
+
+
+
+
+
+
+            /////END///////
+            //close and release
+            xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edited_1.xlsm");
+            xlWorkbook.Close();
+
+
+            //quit and release
+            xlApp.Quit();
+
+            /*  */
+
+            ///COPY Code
+            /* 
+             Excel.Range source = xlWorksheet.Range["A9:L9"].Insert(Excel.XlInsertShiftDirection.xlShiftDown);
+             Excel.Range destination = xlWorksheet.Range["F10"];
+             source.Copy(destination);
+             */
+        }
 
         private void killExcel()
         {
@@ -603,7 +544,7 @@ namespace XL_jobbet
         {
 
             Excel.Application xlApp = new Excel.Application();
-            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2.xlsm", CorruptLoad: false);
+            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2.xlsm", CorruptLoad: true);
 
 
             foreach (Excel._Worksheet worksheet in xlWorkbook.Worksheets)
@@ -631,6 +572,22 @@ namespace XL_jobbet
 
 
 
+
+        private void readExcel()
+        {
+            /* string filePath = @"C:\Excel\BP.xlsm";
+              Excel = new Excel.Application();
+              Excel.Workbook wb;
+              Excel.Worksheet ws;
+              wb = Excel.Workbooks.Open(filePath);
+              ws = wb.Worksheets[1];
+
+              Excel.Range cell = ws.Cells["A1:A2"];
+              foreach (string Result in cell.Value)
+              {
+                  //MessageBox.Show(Result);
+              }*/
+        }
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -724,10 +681,10 @@ namespace XL_jobbet
             killExcel();
             //MessageBox.Show($"openong for {column}");
             Excel.Application xlApp = new Excel.Application();
-            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2.xlsm", CorruptLoad: false);
+            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Excel\BP2.xlsm", CorruptLoad: true);
             xlApp.DisplayAlerts = false;
 
-            //  xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm", Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            //  xlWorkbook.SaveAs2(@"C:\Excel\BP2_Edit.xlsm");
             xlWorkbook.Close();
 
 
@@ -802,95 +759,3 @@ double ECell = sheet[$"E{cell.RowIndex }"].DoubleValue;
    {
        //MessageBox.Show(cell.AddressString + " Innehåller G ");
    }*/
-
-
-/*
-   if (j == 3)
-                    {
-                        xlWorksheet.Cells[i + 2, j + 3] = Convert.ToDecimal(dataGridView1.Rows(i).Cells(j).Value)
-}
-                    else
-                    {
-                        xlWorksheet.Cells[i   2, j   1] = dataGridView1.Rows[i].Cells[j].Value.ToString();
-                    }
- */
-
-
-/* // storing header part in Excel  
- for (int i = 1; i < dataGridView1.Columns.Count + 0; i++)
- {
-     xlWorksheet.Cells[1, "C"] = dataGridView1.Columns[i - 1].HeaderText;
- }
- // storing Each row and column value to excel sheet  
- for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
- {
-     for (int j = 0; j < dataGridView1.Columns.Count; j++)
-     {
-
-
-         xlWorksheet.Cells[i + 2, j + 3] = dataGridView1.Rows[i].Cells[j].Value;
-             ; 
-         // string.Format("{0}" , dataGridView1.Rows[r].Cells[i].FormattedValue)
-     }
- }/**/
-
-// //MessageBox.Show("opening_Layer is : " + openingLayer.ToString());
-
-/*
-                    if (counter == 2)
-                    {
-                        openingTextLayer = openingLayer + 7;
-                        ////MessageBox.Show("Counter value is : " + counter.ToString());
-                        ///  createOpening(openingLayer.ToString(), procentageOpening_C, "E", SheetMachineNameM19, openingTextLayer.ToString());
-                        createOpening(openingLayer.ToString(), procentageOpening_C, "E", SheetMachineNameM20, openingTextLayer.ToString());
-                        createOpening(openingLayer.ToString(), procentageOpening_C, "E", SheetMachineNameM21, openingTextLayer.ToString());                        counter++;
-                    }
-                    if (counter == 1)
-                    {
-                        openingTextLayer = openingLayer + 5;
-                        ////MessageBox.Show("Counter value is : " + counter.ToString());
-                        ///  createOpening(openingLayer.ToString(), procentageOpening_C, "D", SheetMachineNameM19, openingTextLayer.ToString());
-                        createOpening(openingLayer.ToString(), procentageOpening_C, "D", SheetMachineNameM20, openingTextLayer.ToString());
-                        createOpening(openingLayer.ToString(), procentageOpening_C, "D", SheetMachineNameM21, openingTextLayer.ToString());
-                        counter++;
-                    }
-                    if (counter == 0)
-                    {
-                        openingTextLayer = openingLayer + 3;
-                        ////MessageBox.Show("Counter value is : " + counter.ToString());
-                        ///   createOpening(openingLayer.ToString(), procentageOpening_C, "C", SheetMachineNameM19, openingTextLayer.ToString());
-                   //     createOpening(openingLayer.ToString(), procentageOpening_C, "C", SheetMachineNameM20, openingTextLayer.ToString());
-                        createOpening(openingLayer.ToString(), procentageOpening_C, "C", SheetMachineNameM21, openingTextLayer.ToString());
-                        counter++;
-                    }
-
-
-                    */
-// for (int i = 0; i < collection.Count(); i++)
-//{ }
-
-
-/*
-if (counter == 2)
-{
-    openingTextLayer = openingLayer + 7;
-    //MessageBox.Show("Counter value is : " + counter.ToString());
-    createOpening(openingLayer.ToString(), procentageOpening_E, "E", 10, openingTextLayer.ToString());  // Move procentage opening to a global variable.
-    counter++;
-}
-if (counter == 1)
-{
-    openingTextLayer = openingLayer + 5;
-    //MessageBox.Show("Counter value is : " + counter.ToString());
-    createOpening(openingLayer.ToString(), procentageOpening_D, "D",10, openingTextLayer.ToString());
-    counter++;
-}
-if (counter == 0)
-{
-    openingTextLayer = openingLayer + 3;
-    //MessageBox.Show("Counter value is : " + counter.ToString());
-    createOpening(openingLayer.ToString(), procentageOpening_C, "C", 10, openingTextLayer.ToString());
-    counter++;
-}*/
-
-

@@ -9,6 +9,7 @@
   <ItemGroup>
     <Compile Remove="BU.cs" />
     <Compile Remove="CodeFile1.cs" />
+    <Compile Remove="Form1BUBUBUBU.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,10 +27,12 @@
   <ItemGroup>
     <None Include="BU.cs" />
     <None Include="CodeFile1.cs" />
+    <None Include="Form1BUBUBUBU.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.97.0" />
+    <PackageReference Include="ClosedXML_Excel" Version="1.0.0" />
     <PackageReference Include="DevExpress.Win.Dashboard.CustomItemExtension" Version="22.1.0.1" />
     <PackageReference Include="IronXL.Excel" Version="2019.5.0" />
   </ItemGroup>
